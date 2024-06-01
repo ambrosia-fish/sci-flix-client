@@ -74,7 +74,7 @@ app.use(express.static('public'));
 
 //create port for request listening
 app.listen(8080, () =>{
-    console.log('It\'s working!')
+    console.log('It\'s working! It\'s working!')
 });
 
 
