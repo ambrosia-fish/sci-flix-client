@@ -6,6 +6,13 @@ const express = require('express'),
     path = require('path');
 
 // create top 10 films array
+//create accessLogStream to log requests to log.txt file.
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'),{flags: 'a'});
+
+//triggers morgan to log request to accessLogStream and terminal
+app.use(morgan('combined', {stream: accessLogStream}));
+app.use(morgan('common'));
+
 let topTenFilms = [
     {
         title: '2001: A Space Odyssey',
