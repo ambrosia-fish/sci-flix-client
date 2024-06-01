@@ -48,3 +48,16 @@ let topTenFilms = [
         director: 'Steven Spielberg'
     },
 ];
+
+// get request returns top 10 json array
+app.get('/TopTen', (req,res) => {
+    res.json(topTenFilms);
+});
+
+// any unspecified request returns welcome message
+app.get('/', (req,res) => {
+    res.send('Welcome to Sci-Flix!');
+})
+
+// route any static request to it's corresponding file in the public folder
+app.use(express.static('public'));
