@@ -4,8 +4,9 @@ const express = require('express'),
     morgan = require('morgan'),
     fs = require('fs'),
     path = require('path');
+//import express, morgan, fs, path
+//create app for express
 
-// create top 10 films array
 //create accessLogStream to log requests to log.txt file.
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'),{flags: 'a'});
 
@@ -13,6 +14,7 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'),{fl
 app.use(morgan('combined', {stream: accessLogStream}));
 app.use(morgan('common'));
 
+//create top 10 films array
 let topTenFilms = [
     {
         title: '2001: A Space Odyssey',
@@ -56,15 +58,24 @@ let topTenFilms = [
     },
 ];
 
-// get request returns top 10 json array
+//get request returns top 10 json array
 app.get('/TopTen', (req,res) => {
     res.json(topTenFilms);
 });
 
-// any unspecified request returns welcome message
+//any unspecified request returns welcome message
 app.get('/', (req,res) => {
     res.send('Welcome to Sci-Flix!');
 })
 
-// route any static request to it's corresponding file in the public folder
+//route any static request to it's corresponding file in the public folder
 app.use(express.static('public'));
+
+
+//create port for request listening
+app.listen(8080, () =>{
+    console.log('It\'s working!')
+});
+
+
+
