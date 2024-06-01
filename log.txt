@@ -1,21 +1,4 @@
-URL: /
-Timestamp: Fri May 31 2024 12:21:13 GMT-0400 (Eastern Daylight Time)
-
-URL: /
-Timestamp: Fri May 31 2024 12:24:15 GMT-0400 (Eastern Daylight Time)
-
-URL: /
-Timestamp: Fri May 31 2024 12:25:50 GMT-0400 (Eastern Daylight Time)
-
-URL: /
-Timestamp: Fri May 31 2024 12:28:41 GMT-0400 (Eastern Daylight Time)
-
-URL: /
-Timestamp: Fri May 31 2024 12:29:48 GMT-0400 (Eastern Daylight Time)
-
-URL: /favicon.ico
-Timestamp: Fri May 31 2024 12:29:48 GMT-0400 (Eastern Daylight Time)
-
-URL: /documentation.html
-Timestamp: Fri May 31 2024 12:30:06 GMT-0400 (Eastern Daylight Time)
-
+::ffff:127.0.0.1 - - [01/Jun/2024:16:46:00 +0000] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0"
+::ffff:127.0.0.1 - - [01/Jun/2024:16:46:11 +0000] "GET /topTen HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0"
+::ffff:127.0.0.1 - - [01/Jun/2024:16:46:22 +0000] "GET /documentation.html HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0"
+::ffff:127.0.0.1 - - [01/Jun/2024:16:46:28 +0000] "GET /documentation HTTP/1.1" 404 152 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0"
