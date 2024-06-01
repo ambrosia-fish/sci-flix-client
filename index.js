@@ -1,11 +1,11 @@
-// import express, morgan, fs, path
-const express = require('express'),
-    app = express(),
-    morgan = require('morgan'),
-    fs = require('fs'),
-    path = require('path');
 //import express, morgan, fs, path
+const express = require('express');
+const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
+
 //create app for express
+const app = express();
 
 //create accessLogStream to log requests to log.txt file.
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'),{flags: 'a'});
