@@ -95,6 +95,44 @@ app.get('/TopTen', (req,res) => {
     res.json(topTenFilms);
 });
 
+//get request returns title, yaer, director, subgenre and description for movieName.
+app.get('/movies/:moviename',(req,res) =>{
+    res.status(200).send("Placeholder Movie Metadata")
+});
+
+app.get('/genres/:genre', (req,res) =>{
+    res.status(200).send("Genre Description")
+});
+
+app.get('/directors/:directorName', (req, res) => {
+    res.status(200).send("Director Metadata")
+}); 
+
+app.post('/users', (req, res) => {
+    res.status(201).send("New User Created")
+});
+
+app.patch('/users/:username', (req,res) => {
+    res.status(201).send("Username Updated")
+}); 
+
+app.post('/users/favorites', (req, res) => {
+    res.status(200).send("Movie added to favorites")
+});
+
+app.delete('/users/favorites/:movie', (req, res) => {
+    res.status(200).send("Movie Removed from Favorites")
+});
+
+app.delete('/users/:user', (req, res) => {
+    res.status(200).send("User Deleted")
+});
+
+// //get request returns top 10 json array
+// app.get('/TopTen', (req,res) => {
+//     res.json(topTenmovies);
+// });
+
 //any unspecified request returns welcome message
 app.get('/', (req,res) => {
     res.send('Welcome to Sci-Flix!');
