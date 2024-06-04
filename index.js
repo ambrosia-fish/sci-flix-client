@@ -14,8 +14,6 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'),{fl
 app.use(morgan('combined', {stream: accessLogStream}));
 app.use(morgan('common'));
 
-//create top 10 films array
-let topTenFilms = [
 //create top 10 movies array
 let movies = [
     {
@@ -90,9 +88,9 @@ let movies = [
     }
 ];
 
-//get request returns top 10 json array
-app.get('/TopTen', (req,res) => {
-    res.json(topTenFilms);
+//get request returns list of all movies via JSON
+app.get('/movies', (req,res) => {
+    res.json(movies);
 });
 
 //get request returns title, yaer, director, subgenre and description for movieName.
