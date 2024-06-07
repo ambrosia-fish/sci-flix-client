@@ -105,9 +105,6 @@ app.get('/users', async (req,res) => {
     });
 });
 
-app.patch('/users/:username', (req,res) => {
-    res.status(201).send("Username Updated")
-}); 
 //post requests registers new user
 app.post('/users/', async (req, res) => {
     await Users.findOne({username: req.body.username })
@@ -132,6 +129,23 @@ app.post('/users/', async (req, res) => {
 
 app.post('/users/favorites', (req, res) => {
     res.status(200).send("Movie added to favorites")
+//update request to update user info
+app.patch('/users/:username', async (req, res) => {
+    await Users.findOneAndUpdate({ username: req.params.username }, {
+        $set: {
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email,
+            birthday: req.body.birthday
+        }
+    }, { new: true })
+        .then((updatedUser) => {
+            res.json(updatedUser);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
 });
 
 app.delete('/users/favorites/:movie', (req, res) => {
