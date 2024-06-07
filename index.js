@@ -3,6 +3,17 @@ const express = require('express');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+const bodyParser = require('body-parser');
+
+// create model objects for movies and users
+const Movies = Models.Movie;
+const Users = Models.User;
+
+mongoose.connect('mongodb://127.0.0.1:27017/sci-flix', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('Could not connect to MongoDB...', err));
 
 //create app for express
 const app = express();
@@ -13,6 +24,9 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'),{fl
 //triggers morgan to log request to accessLogStream and terminal
 app.use(morgan('combined', {stream: accessLogStream}));
 app.use(morgan('common'));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 //get request returns list of all movies via JSON
