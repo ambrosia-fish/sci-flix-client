@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sci-flix - Documentation</title>
+    </head>
+    <body>
+        <h1>What is Sci-Flix?</h1>
+        <p>Sci-Flix is a database and API of sci-fi movies, with subgenres!.</p>
+        <ul>
+            <h2>Request: List of all movies</h2>
+            <li>URL: http://localhost:8080/movies/</li>
+            <li>Method: GET</li>
+            <li>Response: JSON list of all movies</li>
+            <li>Example: http://localhost:8080/movies/</li>
+            <li>Example Response: </li>
+                <pre>
+{
+    "title": "2001: A Space Odyssey",
+    "year": "1968",
+    "director": "Stanley Kubrick",
+    "subgenre": "Epic",
+    "description": "A visually stunning sci-fi epic exploring human evolution, AI, and cosmic mysteries in deep space."
+},
+{
+    "title": "Alien",
+    "year": "1979",
+    "director": "Ridley Scott",
+    "subgenre": "Horror",
+    "description": "The crew of the Nostromo battles a terrifying alien life form in this suspenseful and claustrophobic horror classic."
+}
+...
+                </pre>
+            <br>
+        
+            <h2>Request: Request movie Metadata</h2>
+            <li>URL: http://localhost:8080/movies/:movieName/</li>
+            <li>Method: GET</li>
+            <li>Response: JSON object with movie title, year, director, subgenre, and description</li>
+            <li>Example Request: "http://localhost:8080/movies/Arrival/"</li>
+            <li>Example Response:</li>
+                <pre>
+{
+    "title": "Arrival", 
+    "year": "2016", 
+    "director": "Denis Villeneuve", 
+    "subgenre": "Drama", 
+    "description": "A linguist works to communicate with mysterious alien visitors and unravels profound implications for humanity and herself."
+}
+                </pre>
+            <br>
+        
+            <h2>Request: Get genre description by name</h2>
+            <li>URL: http://localhost:8080/genres/:genreName/</li>
+            <li>Method: GET</li>
+            <li>Response: JSON object with genre description</li>
+            <li>Example Request: "http://localhost:8080/genres/Thriller/"</li>
+            <li>Example Response:</li>
+                <pre>
+{
+"name": "Thriller", 
+"description": "A genre characterized by excitement, suspense, and high stakes, often involving crime or espionage."
+}
+                </pre>
+            <br>
+        
+            <h2>Request: Get director data by name</h2>
+            <li>URL: http://localhost:8080/directors/:directorName/</li>
+            <li>Method: GET</li>
+            <li>Response: JSON object with director bio, birth year, and death year (if applicable)</li>
+            <li>Example Request: "http://localhost:8080/directors/ChristopherNolan/"</li>
+            <li>Example Response:</li>
+                <pre>
+{
+    "name": "Christopher Nolan", 
+    "bio": "British-American film director, screenwriter, and producer, known for his cerebral, often nonlinear storytelling.",
+    "birthYear": "1970",
+    "deathYear": null
+}
+                </pre>
+            <br>
+        
+            <h2>Request: Register new user</h2>
+            <li>URL: http://localhost:8080/users/</li>
+            <li>Method: POST</li>
+            <li>Body: JSON object with user information</li>
+            <li>Example Request Body:</li>
+                <pre>
+{
+    "username": "newUser",
+    "password": "password123",
+    "email": "newuser@example.com"
+}
+                </pre>
+            <li>Example Response:</li>
+                <pre>New user successfully registered</pre>
+            <br>
+        
+            <h2>Request: Update user info (username)</h2>
+            <li>URL: http://localhost:8080/users/:username/</li>
+            <li>Method: PUT</li>
+            <li>Body: JSON object with updated user information</li>
+            <li>Example Request Body:</li>
+                <pre>
+{
+    "username": "updatedUsername"
+}
+                </pre>
+            <li>Example Response:</li>
+                <pre>User info updated successfully.</pre>
+            <br>
+        
+            <h2>Request: Add movie to user's list of favorites</h2>
+            <li>URL: http://localhost:8080/users/:username/favorites/:movieName/</li>
+            <li>Method: POST</li>
+            <li>Response: JSON object with success message</li>
+            <li>Example Request: "http://localhost:8080/users/johndoe/favorites/Arrival/"</li>
+            <li>Example Response:</li>
+                <pre>Movie successfully added to your favorites.</pre>
+            <br>
+        
+            <h2>Request: Remove movie from user's list of favorites</h2>
+            <li>URL: http://localhost:8080/users/:username/favorites/:movieName/</li>
+            <li>Method: DELETE</li>
+            <li>Response: JSON object with success message</li>
+            <li>Example Request: "http://localhost:8080/users/johndoe/favorites/Arrival/"</li>
+            <li>Example Response:</li>
+                <pre>Movie removed from your favorites. </pre>
+            <br>
+        
+            <h2>Request: Deregister user</h2>
+            <li>URL: http://localhost:8080/users/:username/</li>
+            <li>Method: DELETE</li>
+            <li>Response: JSON object with success message</li>
+            <li>Example Request: "http://localhost:8080/users/johndoe/"</li>
+            <li>Example Response:</li>
+                <pre>User successfully deleted  </pre>
+        </ul>
+        
+    </body>
+</html>
