@@ -78,6 +78,7 @@ app.get('/movies/director/:directorName', async (req, res) => {
             return res.status(404).send("Director not found");
         }
         const directorData = {
+            Name: movie.Director.Name,
             Bio: movie.Director.Bio,
             Birth: movie.Director.Birth,
             Death: movie.Director.Death
