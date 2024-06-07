@@ -108,6 +108,27 @@ app.get('/users', async (req,res) => {
 app.patch('/users/:username', (req,res) => {
     res.status(201).send("Username Updated")
 }); 
+//post requests registers new user
+app.post('/users/', async (req, res) => {
+    await Users.findOne({username: req.body.username })
+    .then((user) => {
+        if (user) {
+            return res.status(400).send(req.body.username + ' already exists');
+        } else {
+            Users.create({
+                username: req.body.username,
+                password: req.body.password,
+                email: req.body.email,
+                birthday: req.body.birthday
+            })
+            .then((user) => res.status(201).json(user))
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send('Error: ' + error);
+            });
+        }
+    })
+});
 
 app.post('/users/favorites', (req, res) => {
     res.status(200).send("Movie added to favorites")
