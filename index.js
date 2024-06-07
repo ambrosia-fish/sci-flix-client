@@ -1,4 +1,4 @@
-//import express, morgan, fs, path
+//import express, morgan, fs, path, mongoose and models.js
 const express = require('express');
 const morgan = require('morgan');
 const fs = require('fs');
@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-//get request returns list of all movies via JSON
+//get request returns list of all movies via JSON - TESTED
 app.get('/movies', async (req,res) => {
     await Movies.find()
     .then((movies) => {
@@ -41,7 +41,7 @@ app.get('/movies', async (req,res) => {
     });
 });
 
-//get request returns title, yaer, director, subgenre and description for movieName.
+//get request returns title, yaer, director, subgenre and description for movieName. - TESTED
 app.get('/movies/:Title', async (req,res) =>{
     await Movies.findOne({Title: req.params.Title})
     .then((movie) => {
@@ -54,8 +54,7 @@ app.get('/movies/:Title', async (req,res) =>{
 });
 
 
-// get returns data about genre
-
+// get returns data about genre - TESTED
 app.get('/movies/genre/:genreName', async (req, res) => {
     await Movies.findOne({'Genre.Name': req.params.genreName})
     .then((movie) => {
@@ -71,8 +70,7 @@ app.get('/movies/genre/:genreName', async (req, res) => {
 });
 
 
-// get requests returns data about director
-
+// get requests returns data about director - TESTED
 app.get('/movies/director/:directorName', async (req, res) => {
     await Movies.findOne({'Director.Name': req.params.directorName})
     .then((movie) => {
@@ -93,7 +91,7 @@ app.get('/movies/director/:directorName', async (req, res) => {
 });
 
 
-// get request returns all users
+// get request returns all users - TESTED
 app.get('/users', async (req,res) => {
     await Users.find()
     .then((users) => {
@@ -105,7 +103,7 @@ app.get('/users', async (req,res) => {
     });
 });
 
-//post requests registers new user
+//post requests registers new user - TESTED
 app.post('/users/', async (req, res) => {
     await Users.findOne({username: req.body.username })
     .then((user) => {
@@ -127,7 +125,7 @@ app.post('/users/', async (req, res) => {
     })
 });
 
-//update request to update user info
+//update request to update user info - TESTED
 app.patch('/users/:username', async (req, res) => {
     await Users.findOneAndUpdate({ username: req.params.username }, {
         $set: {
@@ -146,7 +144,7 @@ app.patch('/users/:username', async (req, res) => {
         });
 });
 
-//add a favorite
+//add a favorite - TESTED
 app.post('/users/:username/movies/:movieId', async (req, res) => {
     await Users.findOneAndUpdate({ username: req.params.username }, {
         $push: { 
@@ -162,7 +160,7 @@ app.post('/users/:username/movies/:movieId', async (req, res) => {
         });
 });
 
-//remove a favorite
+//remove a favorite - TESTED
 app.delete('/users/:username/movies/:movieId', async (req, res) => {
     await Users.findOneAndUpdate({ username: req.params.username }, {
         $pull: { 
@@ -179,7 +177,7 @@ app.delete('/users/:username/movies/:movieId', async (req, res) => {
 });
 
 
-//delete request deletes user
+//delete request deletes user - TESTED
 app.delete('/users/:user', async (req, res) => {
     await Users.findOneAndDelete({username: req.params.user})
     .then((user) => {
