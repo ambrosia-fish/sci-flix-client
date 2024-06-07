@@ -127,8 +127,6 @@ app.post('/users/', async (req, res) => {
     })
 });
 
-app.post('/users/favorites', (req, res) => {
-    res.status(200).send("Movie added to favorites")
 //update request to update user info
 app.patch('/users/:username', async (req, res) => {
     await Users.findOneAndUpdate({ username: req.params.username }, {
@@ -148,8 +146,36 @@ app.patch('/users/:username', async (req, res) => {
         });
 });
 
-app.delete('/users/favorites/:movie', (req, res) => {
-    res.status(200).send("Movie Removed from Favorites")
+//add a favorite
+app.post('/users/:username/movies/:movieId', async (req, res) => {
+    await Users.findOneAndUpdate({ username: req.params.username }, {
+        $push: { 
+            FavoriteMovies: req.body.newFavorite 
+        }
+    }, { new: true })
+        .then((updatedUser) => {
+            res.json(updatedUser);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
+});
+
+//remove a favorite
+app.delete('/users/:username/movies/:movieId', async (req, res) => {
+    await Users.findOneAndUpdate({ username: req.params.username }, {
+        $pull: { 
+            FavoriteMovies: req.body.newFavorite 
+        }
+    }, { new: true })
+        .then((updatedUser) => {
+            res.json(updatedUser);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
 });
 
 app.delete('/users/:user', (req, res) => {
