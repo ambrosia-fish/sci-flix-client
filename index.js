@@ -178,9 +178,23 @@ app.delete('/users/:username/movies/:movieId', async (req, res) => {
         });
 });
 
-app.delete('/users/:user', (req, res) => {
-    res.status(200).send("User Deleted")
+
+//delete request deletes user
+app.delete('/users/:user', async (req, res) => {
+    await Users.findOneAndDelete({username: req.params.user})
+    .then((user) => {
+        if(!user) {
+            res.status(400).send(req.params.user + ' was not found');
+        } else {
+            res.status(200).send(req.params.user + ' was deleted.');
+        }
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err)
+    });
 });
+
 
 // //get request returns top 10 json array
 // app.get('/TopTen', (req,res) => {
