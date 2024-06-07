@@ -30,8 +30,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 //get request returns list of all movies via JSON
-app.get('/movies', (req,res) => {
-    res.json(movies);
+app.get('/movies', async (req,res) => {
+    await Movies.find()
+    .then((movies) => {
+        res.status(201).json(movies);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err)
+    });
 });
 
 //get request returns title, yaer, director, subgenre and description for movieName.
