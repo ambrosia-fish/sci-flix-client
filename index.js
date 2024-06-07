@@ -42,8 +42,15 @@ app.get('/movies', async (req,res) => {
 });
 
 //get request returns title, yaer, director, subgenre and description for movieName.
-app.get('/movies/:moviename',(req,res) =>{
-    res.status(200).send("Placeholder Movie Metadata")
+app.get('/movies/:Title', async (req,res) =>{
+    await Movies.findOne({Title: req.params.Title})
+    .then((movie) => {
+        res.json(movie);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: + err')
+    })
 });
 
 app.get('/genres/:genre', (req,res) =>{
