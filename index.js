@@ -71,11 +71,27 @@ app.get('/movies/genre/:genreName', async (req, res) => {
 });
 
 
+// get requests returns data about director
+
+app.get('/movies/director/:directorName', async (req, res) => {
+    await Movies.findOne({'Director.Name': req.params.directorName})
+    .then((movie) => {
+        if (!movie) {
+            return res.status(404).send("Director not found");
+        }
+        const directorData = {
+            Bio: movie.Director.Bio,
+            Birth: movie.Director.Birth,
+            Death: movie.Director.Death
+        };
+        res.json(directorData);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
 });
 
-app.get('/directors/:directorName', (req, res) => {
-    res.status(200).send("Director Metadata")
-}); 
 
 app.post('/users', (req, res) => {
     res.status(201).send("New User Created")
