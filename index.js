@@ -53,8 +53,24 @@ app.get('/movies/:Title', async (req,res) =>{
     })
 });
 
-app.get('/genres/:genre', (req,res) =>{
-    res.status(200).send("Genre Description")
+
+// get returns data about genre
+
+app.get('/movies/genre/:genreName', async (req, res) => {
+    await Movies.findOne({'Genre.Name': req.params.genreName})
+    .then((movie) => {
+        if (!movie) {
+            return res.status(404).send("Genre not found");
+        }
+        res.json({genreDescription: movie.Genre.Description});
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+});
+
+
 });
 
 app.get('/directors/:directorName', (req, res) => {
