@@ -1,140 +1,215 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Sci-flix - Documentation</title>
-    </head>
-    <body>
-        <h1>What is Sci-Flix?</h1>
-        <p>Sci-Flix is a database and API of sci-fi movies, with subgenres!.</p>
-        <ul>
-            <h2>Request: List of all movies</h2>
-            <li>URL: http://localhost:8080/movies/</li>
-            <li>Method: GET</li>
-            <li>Response: JSON list of all movies</li>
-            <li>Example: http://localhost:8080/movies/</li>
-            <li>Example Response: </li>
-                <pre>
+<head>
+    <title>Sci-flix - Documentation</title>
+</head>
+<body>
+<h1>What is Sci-Flix?</h1>
+<p>Sci-Flix is a database and API of sci-fi movies, with subgenres!.</p>
+<ul>
+    <h2>Request: List of all movies</h2>
+    <li>URL: http://localhost:8080/movies/</li>
+    <li>Method: GET</li>
+    <li>Response: JSON list of all movies</li>
+    <li>Example: http://localhost:8080/movies/</li>
+    <li>Example Response:</li>
+    <pre>
 {
-    "title": "2001: A Space Odyssey",
-    "year": "1968",
-    "director": "Stanley Kubrick",
-    "subgenre": "Epic",
-    "description": "A visually stunning sci-fi epic exploring human evolution, AI, and cosmic mysteries in deep space."
+    "Genre": {
+        "Name": "Epic",
+        "Description": "Epic films are a style of filmmaking with large-scale, sweeping scope, and spectacle."
+    },
+    "Director": {
+        "Name": "Stanley Kubrick",
+        "Bio": "Stanley Kubrick was an American film director, producer, screenwriter, and photographer.",
+        "Birth": "1928-01-01T00:00:00.000Z",
+        "Death": "1999-01-01T00:00:00.000Z"
+    },
+    "Actiors": [],
+    "_id": "6661eee0e9e6e3b6dacdcdf6",
+    "Title": "2001: A Space Odyssey",
+    "Description": "2001: A Space Odyssey is a visually stunning science fiction epic exploring human evolution, AI and cosmic mysteries during a voyage to Jupiter triggered by a mysterious alien monolith found on the Moon."
 },
 {
-    "title": "Alien",
-    "year": "1979",
-    "director": "Ridley Scott",
-    "subgenre": "Horror",
-    "description": "The crew of the Nostromo battles a terrifying alien life form in this suspenseful and claustrophobic horror classic."
+    "Genre": {
+        "Name": "Neo-noir",
+        "Description": "Neo-noir is a modern or contemporary motion picture rendition of film noir, emphasizing cynical attitudes and sexual motivations."
+    },
+    "Director": {
+        "Name": "Ridley Scott",
+        "Bio": "Sir Ridley Scott is an English film director and producer, known for his stylish visuals and innovative storytelling.",
+        "Birth": "1937-01-01T00:00:00.000Z",
+        "Death": null
+    },
+    "Actiors": [],
+    "_id": "6661eee0e9e6e3b6dacdcdf7",
+    "Title": "Blade Runner",
+    "Description": "In a dystopian future, a blade runner hunts down rogue androids while grappling with his own humanity."
 }
 ...
-                </pre>
-            <br>
-        
-            <h2>Request: Request movie Metadata</h2>
-            <li>URL: http://localhost:8080/movies/:movieName/</li>
-            <li>Method: GET</li>
-            <li>Response: JSON object with movie title, year, director, subgenre, and description</li>
-            <li>Example Request: "http://localhost:8080/movies/Arrival/"</li>
-            <li>Example Response:</li>
-                <pre>
+    </pre>
+    <br>
+
+    <h2>Request: Request movie Metadata</h2>
+    <li>URL: http://localhost:8080/movies/:movieName/</li>
+    <li>Method: GET</li>
+    <li>Response: JSON object with movie title, year, director, subgenre, and description</li>
+    <li>Example Request: "http://localhost:8080/movies/Blade%20Runner/"</li>
+    <li>Example Response:</li>
+    <pre>
 {
-    "title": "Arrival", 
-    "year": "2016", 
-    "director": "Denis Villeneuve", 
-    "subgenre": "Drama", 
-    "description": "A linguist works to communicate with mysterious alien visitors and unravels profound implications for humanity and herself."
+    "Genre": {
+        "Name": "Neo-noir",
+        "Description": "Neo-noir is a modern or contemporary motion picture rendition of film noir, emphasizing cynical attitudes and sexual motivations."
+    },
+    "Director": {
+        "Name": "Ridley Scott",
+        "Bio": "Sir Ridley Scott is an English film director and producer, known for his stylish visuals and innovative storytelling.",
+        "Birth": "1937-01-01T00:00:00.000Z",
+        "Death": null
+    },
+    "Actiors": [],
+    "_id": "6661eee0e9e6e3b6dacdcdf7",
+    "Title": "Blade Runner",
+    "Description": "In a dystopian future, a blade runner hunts down rogue androids while grappling with his own humanity."
 }
-                </pre>
-            <br>
-        
-            <h2>Request: Get genre description by name</h2>
-            <li>URL: http://localhost:8080/genres/:genreName/</li>
-            <li>Method: GET</li>
-            <li>Response: JSON object with genre description</li>
-            <li>Example Request: "http://localhost:8080/genres/Thriller/"</li>
-            <li>Example Response:</li>
-                <pre>
+    </pre>
+    <br>
+
+    <h2>Request: Get genre description by name</h2>
+    <li>URL: http://localhost:8080/movies/genres/:genreName/</li>
+    <li>Method: GET</li>
+    <li>Response: JSON object with genre description</li>
+    <li>Example Request: "http://localhost:8080/movies/genres/Epic/"</li>
+    <li>Example Response:</li>
+    <pre>
 {
-"name": "Thriller", 
-"description": "A genre characterized by excitement, suspense, and high stakes, often involving crime or espionage."
+    "genreDescription": "Epic films are a style of filmmaking with large-scale, sweeping scope, and spectacle."
 }
-                </pre>
-            <br>
-        
-            <h2>Request: Get director data by name</h2>
-            <li>URL: http://localhost:8080/directors/:directorName/</li>
-            <li>Method: GET</li>
-            <li>Response: JSON object with director bio, birth year, and death year (if applicable)</li>
-            <li>Example Request: "http://localhost:8080/directors/ChristopherNolan/"</li>
-            <li>Example Response:</li>
-                <pre>
+    </pre>
+    <br>
+
+    <h2>Request: Get director data by name</h2>
+    <li>URL: http://localhost:8080/movies/directors/:directorName/</li>
+    <li>Method: GET</li>
+    <li>Response: JSON object with director bio, birth year, and death year (if applicable)</li>
+    <li>Example Request: "http://localhost:8080/directors/Ridley%20Scott/"</li>
+    <li>Example Response:</li>
+    <pre>
 {
-    "name": "Christopher Nolan", 
-    "bio": "British-American film director, screenwriter, and producer, known for his cerebral, often nonlinear storytelling.",
-    "birthYear": "1970",
-    "deathYear": null
+    "Name": "Ridley Scott",
+    "Bio": "Sir Ridley Scott is an English film director and producer, known for his stylish visuals and innovative storytelling.",
+    "Birth": "1937-01-01T00:00:00.000Z",
+    "Death": null
 }
-                </pre>
-            <br>
-        
-            <h2>Request: Register new user</h2>
-            <li>URL: http://localhost:8080/users/</li>
-            <li>Method: POST</li>
-            <li>Body: JSON object with user information</li>
-            <li>Example Request Body:</li>
-                <pre>
+    </pre>
+    <br>
+
+    <h2>Request: Register new user</h2>
+    <li>URL: http://localhost:8080/users/</li>
+    <li>Method: POST</li>
+    <li>Body: JSON object with user information</li>
+    <li>Example Request Body:</li>
+    <pre>
 {
-    "username": "newUser",
-    "password": "password123",
-    "email": "newuser@example.com"
+    "username":"NewUserTest123",
+    "password":"supertoughpassword",
+    "email":"first.last@gmail.com"
 }
-                </pre>
-            <li>Example Response:</li>
-                <pre>New user successfully registered</pre>
-            <br>
-        
-            <h2>Request: Update user info (username)</h2>
-            <li>URL: http://localhost:8080/users/:username/</li>
-            <li>Method: PUT</li>
-            <li>Body: JSON object with updated user information</li>
-            <li>Example Request Body:</li>
-                <pre>
+    </pre>
+    <li>Example Response:</li>
+    <pre>
+{
+    "username": "NewUserTest123",
+    "password": "supertoughpassword",
+    "email": "first.last@gmail.com",
+    "FavoriteMovies": [],
+    "_id": "666369f556d09b268460cf97",
+    "__v": 0
+}
+    </pre>
+    <br>
+
+    <h2>Request: Update user info (username)</h2>
+    <li>URL: http://localhost:8080/users/:username/</li>
+    <li>Method: PUT</li>
+    <li>Body: JSON object with updated user information</li>
+    <li>Example Request Body:</li>
+    <pre>
 {
     "username": "updatedUsername"
 }
-                </pre>
-            <li>Example Response:</li>
-                <pre>User info updated successfully.</pre>
-            <br>
-        
-            <h2>Request: Add movie to user's list of favorites</h2>
-            <li>URL: http://localhost:8080/users/:username/favorites/:movieName/</li>
-            <li>Method: POST</li>
-            <li>Response: JSON object with success message</li>
-            <li>Example Request: "http://localhost:8080/users/johndoe/favorites/Arrival/"</li>
-            <li>Example Response:</li>
-                <pre>Movie successfully added to your favorites.</pre>
-            <br>
-        
-            <h2>Request: Remove movie from user's list of favorites</h2>
-            <li>URL: http://localhost:8080/users/:username/favorites/:movieName/</li>
-            <li>Method: DELETE</li>
-            <li>Response: JSON object with success message</li>
-            <li>Example Request: "http://localhost:8080/users/johndoe/favorites/Arrival/"</li>
-            <li>Example Response:</li>
-                <pre>Movie removed from your favorites. </pre>
-            <br>
-        
-            <h2>Request: Deregister user</h2>
-            <li>URL: http://localhost:8080/users/:username/</li>
-            <li>Method: DELETE</li>
-            <li>Response: JSON object with success message</li>
-            <li>Example Request: "http://localhost:8080/users/johndoe/"</li>
-            <li>Example Response:</li>
-                <pre>User successfully deleted  </pre>
-        </ul>
-        
+    </pre>
+    <li>Example Response:</li>
+    <pre>
+{
+    "_id": "666369f556d09b268460cf97",
+    "username": "UpdatedUserName",
+    "password": "EvEnMoReStRoNgPaSsWoRd",
+    "email": "first.last@gmail.com",
+    "FavoriteMovies": [],
+    "__v": 0
+}
+    </pre>
+    <br>
+
+    <h2>Request: Add movie to user's list of favorites</h2>
+    <li>URL: http://localhost:8080/users/:username/favorites/:movieName/</li>
+    <li>Method: POST</li>
+    <li>Body: JSON
+        object with newFavorite parameter with a movieId value</li>
+        <li>Example Request Body:</li>
+        <pre>
+    {
+        "newFavorite":"6661eee0e9e6e3b6dacdcdf8"
+    }
+        </pre>
+        <li>Response: JSON object of user with updated favorited list</li>
+        <li>Example Request: "http://localhost:8080/users/ambrosia.fish/favorites/Alien/"</li>
+        <li>Example Response:</li>
+        <pre>
+    {
+        "_id": "666359f3bebc0af4e6c1283d",
+        "username": "ambrosia.fish",
+        "password": "supertoughpassword",
+        "email": "fish.ambrosia@gmail.com",
+        "FavoriteMovies": [
+            "6661eee0e9e6e3b6dacdcdff",
+            "6661eee0e9e6e3b6dacdcdf8"
+        ],
+        "__v": 0
+    }
+        </pre>
+        <br>
+    
+        <h2>Request: Remove movie from user's list of favorites</h2>
+        <li>URL: http://localhost:8080/users/:username/favorites/:movieName/</li>
+        <li>Method: DELETE</li>
+        <li>Response: JSON object of user with updated favorited list</li>
+        <li>Example Request: "http://localhost:8080/users/ambrosia.fish/favorites/Alien/"</li>
+        <li>Example Response:</li>
+        <pre>
+    {
+        "_id": "666359f3bebc0af4e6c1283d",
+        "username": "ambrosia.fish",
+        "password": "supertoughpassword",
+        "email": "fish.ambrosia@gmail.com",
+        "FavoriteMovies": [
+            "6661eee0e9e6e3b6dacdcdff",
+        ],
+        "__v": 0
+    }
+        </pre>
+        <br>
+    
+        <h2>Request: Deregister user</h2>
+        <li>URL: http://localhost:8080/users/:username/</li>
+        <li>Method: DELETE</li>
+        <li>Response: JSON object with success message</li>
+        <li>Example Request: "http://localhost:8080/users/johndoe/"</li>
+        <li>Example Response:</li>
+        <pre>User successfully deleted  </pre>
+    </ul>
     </body>
-</html>
+    </html>
+    
