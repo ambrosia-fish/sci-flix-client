@@ -119,7 +119,7 @@ app.get('/users', async (req,res) => {
 });
 
 //post requests registers new user 
-app.post('/users/', async (req, res) => {
+app.post('/users/', passport.authenticate('jwt', { session: false }), async (req, res) => {
     let hashedPassword = Users.hashPassword(req.body.password);
     await Users.findOne({username: req.body.username })
     .then((user) => {
