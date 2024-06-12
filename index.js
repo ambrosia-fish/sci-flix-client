@@ -107,7 +107,7 @@ app.get('/movies/director/:directorName', async (req, res) => {
 
 
 // get request returns all users 
-app.get('/users', async (req,res) => {
+app.get('/users', passport.authenticate('jwt', { session: false }), async (req,res) => {
     await Users.find()
     .then((users) => {
         res.status(201).json(users);
