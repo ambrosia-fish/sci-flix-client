@@ -300,3 +300,6 @@
 127.0.0.1 - - [12/Jun/2024:16:55:48 +0000] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0"
 127.0.0.1 - - [12/Jun/2024:16:55:55 +0000] "GET /movies/ HTTP/1.1" 201 5348 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0"
 127.0.0.1 - - [12/Jun/2024:17:12:15 +0000] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0"
+127.0.0.1 - - [12/Jun/2024:17:53:14 +0000] "POST /users/ HTTP/1.1" 500 56 "-" "PostmanRuntime/7.39.0"
+127.0.0.1 - - [12/Jun/2024:17:53:32 +0000] "POST /users/ HTTP/1.1" 400 1599 "-" "PostmanRuntime/7.39.0"
+127.0.0.1 - - [12/Jun/2024:17:53:51 +0000] "GET /movies/ HTTP/1.1" 201 5348 "-" "PostmanRuntime/7.39.0"
