@@ -161,7 +161,7 @@ app.patch('/users/:username', passport.authenticate('jwt', { session: false }), 
 });
 
 //add a favorite 
-app.post('/users/:username/movies/:movieId', async (req, res) => {
+app.post('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOneAndUpdate({ username: req.params.username }, {
         $push: { 
             FavoriteMovies: req.body.newFavorite 
@@ -194,7 +194,7 @@ app.delete('/users/:username/movies/:movieId', passport.authenticate('jwt', { se
 
 
 //delete request deletes user 
-app.delete('/users/:user', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:user', async (req, res) => {
     await Users.findOneAndDelete({username: req.params.user})
     .then((user) => {
         if(!user) {
