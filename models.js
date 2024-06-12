@@ -1,5 +1,6 @@
-// Require mongoose
+// Require mongoose and bcrypt
 const mongoose = require('mongoose');
+const bcrypt = require('bcrpt');
 
 // Create/define movieSchema's data format
 let movieSchema = mongoose.Schema({
@@ -25,9 +26,19 @@ let userSchema = mongoose.Schema({
     username: {type: String, required: true},
     password: {type: String, required: true},
     email: {type: String, required: true},
-    Birthday: Date,
-    FavoriteMovies: [{type: mongoose.Schema.Types.ObjectId, ref:'movie'}]
+    birthday: Date,
+    favoriteMovies: [{type: mongoose.Schema.Types.ObjectId, ref:'movie'}]
 });
+
+// hashes password
+userSchema.statics.hashPassword = (password) => {
+    return bcrypt.hashSync(password, 10);
+};
+
+// compares submitted hashed password with one stored in db
+userSchema.methods.validatePassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+};
 
 // Create * export models
 let Movie = mongoose.model('Movie', movieSchema);
