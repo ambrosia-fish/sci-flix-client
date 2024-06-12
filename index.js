@@ -115,6 +115,7 @@ app.get('/users', passport.authenticate('jwt', { session: false }), async (req,r
 
 //post requests registers new user 
 app.post('/users/', async (req, res) => {
+    let hashedPassword = Users.hashedPassword(req.body.password);
     await Users.findOne({username: req.body.username })
     .then((user) => {
         if (user) {
@@ -122,7 +123,7 @@ app.post('/users/', async (req, res) => {
         } else {
             Users.create({
                 username: req.body.username,
-                password: req.body.password,
+                password: hashedPassword,
                 email: req.body.email,
                 birthday: req.body.birthday
             })
