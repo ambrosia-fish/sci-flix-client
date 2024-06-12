@@ -15,7 +15,7 @@ const Users = Models.User;
 //     .then(() => console.log('Connected to MongoDB'))
 //     .catch(err => console.error('Could not connect to MongoDB...', err));
 
-mongoose.connect(process.env.CONNECTION_URI)
+mongoose.connect('mongodb+srv://josefameur:greenstar92@sci-flix.lzvzqan.mongodb.net/sci-flix?retryWrites=true&w=majority&appName=Sci-Flix')
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('Could not connect to MongoDB...', err));
 
@@ -63,7 +63,7 @@ app.get('/movies/:Title', async (req,res) =>{
     })
     .catch((err) => {
         console.error(err);
-        res.status(500).send('Error: + err')
+        res.status(500).send('Error: ' + err)
     })
 });
 
@@ -120,7 +120,7 @@ app.get('/users', async (req,res) => {
 
 //post requests registers new user 
 app.post('/users/', async (req, res) => {
-    let hashedPassword = Users.hashedPassword(req.body.password);
+    let hashedPassword = Users.hashPassword(req.body.password);
     await Users.findOne({username: req.body.username })
     .then((user) => {
         if (user) {
@@ -164,7 +164,7 @@ app.patch('/users/:username', passport.authenticate('jwt', { session: false }), 
 app.post('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOneAndUpdate({ username: req.params.username }, {
         $push: { 
-            FavoriteMovies: req.body.newFavorite 
+            favoriteMovies: req.body.newFavorite 
         }
     }, { new: true })
         .then((updatedUser) => {

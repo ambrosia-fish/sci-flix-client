@@ -27,17 +27,16 @@ let userSchema = mongoose.Schema({
     password: {type: String, required: true},
     email: {type: String, required: true},
     birthday: Date,
-    favoriteMovies: [{type: mongoose.Schema.Types.ObjectId, ref:'movie'}]
+    favoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
 });
 
 // hashes password
 userSchema.statics.hashPassword = (password) => {
-  return bcrypt.hashSync(password, 10);
+    return bcrypt.hashSync(password, 10);
 };
-
-// compares submitted hashed password with one stored in db
-userSchema.methods.validatePassword = function(password) {
-    return bcrypt.compareSync(password, this.password);
+  
+  userSchema.methods.validatePassword = function(password) {
+    return bcrypt.compareSync(password, this.Password);
 };
 
 // Create * export models
