@@ -44,7 +44,7 @@ require('./passport');
 
 
 //get request returns list of all movies via JSON 
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies', async (req, res) => {
     await Movies.find()
       .then((movies) => {
         res.status(201).json(movies);
@@ -56,7 +56,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
   });
 
 //get request returns title, yaer, director, subgenre and description for movieName. 
-app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), async (req,res) =>{
+app.get('/movies/:Title', async (req,res) =>{
     await Movies.findOne({Title: req.params.Title})
     .then((movie) => {
         res.json(movie);
@@ -69,7 +69,7 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), asyn
 
 
 // get returns data about genre 
-app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies/genre/:genreName', async (req, res) => {
     await Movies.findOne({'Genre.Name': req.params.genreName})
     .then((movie) => {
         if (!movie) {
@@ -85,7 +85,7 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: fals
 
 
 // get requests returns data about director 
-app.get('/movies/director/:directorName', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies/director/:directorName', async (req, res) => {
     await Movies.findOne({'Director.Name': req.params.directorName})
     .then((movie) => {
         if (!movie) {
@@ -226,7 +226,7 @@ app.use(express.static('public'));
 
 //create port for request listening
 const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0', () =>{
+app.listen(port, '0.0.0.0',() => {
     console.log('It\'s working! It\'s working!')
 });
 
