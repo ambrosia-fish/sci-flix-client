@@ -214,7 +214,8 @@ app.use(express.static('public'));
 
 
 //create port for request listening
-app.listen(8080, () =>{
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () =>{
     console.log('It\'s working! It\'s working!')
 });
 
