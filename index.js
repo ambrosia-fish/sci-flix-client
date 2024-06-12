@@ -28,6 +28,11 @@ app.use(morgan('common'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// cors functionality
+
+const cors = require('cors');
+app.use.apply(cors());
+
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
