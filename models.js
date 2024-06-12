@@ -1,6 +1,6 @@
 // Require mongoose and bcrypt
 const mongoose = require('mongoose');
-const bcrypt = require('bcrpt');
+const bcrypt = require('bcrypt');
 
 // Create/define movieSchema's data format
 let movieSchema = mongoose.Schema({
