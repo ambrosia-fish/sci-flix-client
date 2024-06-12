@@ -15,7 +15,7 @@ const Users = Models.User;
 //     .then(() => console.log('Connected to MongoDB'))
 //     .catch(err => console.error('Could not connect to MongoDB...', err));
 
-mongoose.connect('mongodb+srv://josefameur:greenstar92@sci-flix.lzvzqan.mongodb.net/sci-flix?retryWrites=true&w=majority&appName=Sci-Flix')
+mongoose.connect(process.env.CONNECTION_URI)
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('Could not connect to MongoDB...', err));
 
