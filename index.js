@@ -107,7 +107,7 @@ app.get('/movies/director/:directorName', async (req, res) => {
 
 
 // get request returns all users 
-app.get('/users', passport.authenticate('jwt', { session: false }), async (req,res) => {
+app.get('/users', async (req,res) => {
     await Users.find()
     .then((users) => {
         res.status(201).json(users);
@@ -161,7 +161,7 @@ app.patch('/users/:username', passport.authenticate('jwt', { session: false }), 
 });
 
 //add a favorite 
-app.post('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.post('/users/:username/movies/:movieId', async (req, res) => {
     await Users.findOneAndUpdate({ username: req.params.username }, {
         $push: { 
             FavoriteMovies: req.body.newFavorite 
