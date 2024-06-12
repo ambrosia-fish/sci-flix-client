@@ -1,8 +1,24 @@
-//import express, morgan, fs, path
+//import express, morgan, fs, path, mongoose and models.js
 const express = require('express');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+const bodyParser = require('body-parser');
+
+// create model objects for movies and users
+const Movies = Models.Movie;
+const Users = Models.User;
+
+// mongoose.connect('mongodb://127.0.0.1:27017/sci-flix', { useNewUrlParser: true, useUnifiedTopology: true })
+//     .then(() => console.log('Connected to MongoDB'))
+//     .catch(err => console.error('Could not connect to MongoDB...', err));
+
+mongoose.connect('mongodb+srv://josefameur:greenstar92@sci-flix.lzvzqan.mongodb.net/sci-flix?retryWrites=true&w=majority&appName=Sci-Flix')
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('Could not connect to MongoDB...', err));
+
 
 //create app for express
 const app = express();
@@ -14,117 +30,185 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'),{fl
 app.use(morgan('combined', {stream: accessLogStream}));
 app.use(morgan('common'));
 
-//create top 10 movies array
-let movies = [
-    {
-        title: "2001: A Space Odyssey",
-        year: "1968",
-        director: "Stanley Kubrick",
-        subgenre: "Epic",
-        description: "A visually stunning sci-fi epic exploring human evolution, AI, and cosmic mysteries in deep space."
-    },
-    {
-        title: "Blade Runner",
-        year: "1982",
-        director: "Ridley Scott",
-        subgenre: "Neo-noir",
-        description: "In a dystopian future, a blade runner hunts down rogue androids while grappling with his own humanity."
-    },
-    {
-        title: "Alien",
-        year: "1979",
-        director: "Ridley Scott",
-        subgenre: "Horror",
-        description: "The crew of the Nostromo battles a terrifying alien life form in this suspenseful and claustrophobic horror classic."
-    },
-    {
-        title: "The Thing",
-        year: "1982",
-        director: "John Carpenter",
-        subgenre: "Horror",
-        description: "An Antarctic research team encounters a shape-shifting alien that can imitate any creature, leading to paranoia and terror."
-    },
-    {
-        title: "The Terminator",
-        year: "1984",
-        director: "James Cameron",
-        subgenre: "Action",
-        description: "A relentless cyborg assassin is sent from the future to kill Sarah Connor, the mother of a future resistance leader."
-    },
-    {
-        title: "The Matrix",
-        year: "1999",
-        director: "The Wachowski Sisters",
-        subgenre: "Action",
-        description: "A hacker discovers the shocking truth about his reality and leads a rebellion against the machines controlling it."
-    },
-    {
-        title: "Back to the Future",
-        year: "1985",
-        director: "Robert Zemeckis",
-        subgenre: "Adventure",
-        description: "Teenager Marty McFly travels back to 1955 and must ensure his parents meet and fall in love to return to the present."
-    },
-    {
-        title: "Arrival",
-        year: "2016",
-        director: "Denis Villeneuve",
-        subgenre: "Drama",
-        description: "A linguist works to communicate with mysterious alien visitors and unravels profound implications for humanity and herself."
-    },
-    {
-        title: "Dune: Part Two",
-        year: "2024",
-        director: "Denis Villeneuve",
-        subgenre: "Epic",
-        description: "Paul Atreides continues his journey on Arrakis, facing new challenges and consolidating his power against formidable foes."
-    },
-    {
-        title: "Jurassic Park",
-        year: "1993",
-        director: "Steven Spielberg",
-        subgenre: "Adventure",
-        description: "A revolutionary theme park with living dinosaurs turns deadly as the prehistoric creatures break free and hunt the visitors."
-    }
-];
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-//get request returns list of all movies via JSON
-app.get('/movies', (req,res) => {
-    res.json(movies);
+// cors functionality
+
+const cors = require('cors');
+app.use(cors());
+
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
+
+
+//get request returns list of all movies via JSON 
+app.get('/movies', async (req, res) => {
+    await Movies.find()
+      .then((movies) => {
+        res.status(201).json(movies);
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+      });
+  });
+
+//get request returns title, yaer, director, subgenre and description for movieName. 
+app.get('/movies/:Title', async (req,res) =>{
+    await Movies.findOne({Title: req.params.Title})
+    .then((movie) => {
+        res.json(movie);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: + err')
+    })
 });
 
-//get request returns title, yaer, director, subgenre and description for movieName.
-app.get('/movies/:moviename',(req,res) =>{
-    res.status(200).send("Placeholder Movie Metadata")
+
+// get returns data about genre 
+app.get('/movies/genre/:genreName', async (req, res) => {
+    await Movies.findOne({'Genre.Name': req.params.genreName})
+    .then((movie) => {
+        if (!movie) {
+            return res.status(404).send("Genre not found");
+        }
+        res.json({genreDescription: movie.Genre.Description});
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
 });
 
-app.get('/genres/:genre', (req,res) =>{
-    res.status(200).send("Genre Description")
+
+// get requests returns data about director 
+app.get('/movies/director/:directorName', async (req, res) => {
+    await Movies.findOne({'Director.Name': req.params.directorName})
+    .then((movie) => {
+        if (!movie) {
+            return res.status(404).send("Director not found");
+        }
+        const directorData = {
+            Name: movie.Director.Name,
+            Bio: movie.Director.Bio,
+            Birth: movie.Director.Birth,
+            Death: movie.Director.Death
+        };
+        res.json(directorData);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
 });
 
-app.get('/directors/:directorName', (req, res) => {
-    res.status(200).send("Director Metadata")
-}); 
 
-app.post('/users', (req, res) => {
-    res.status(201).send("New User Created")
+// get request returns all users 
+app.get('/users', passport.authenticate('jwt', { session: false }), async (req,res) => {
+    await Users.find()
+    .then((users) => {
+        res.status(201).json(users);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err)
+    });
 });
 
-app.patch('/users/:username', (req,res) => {
-    res.status(201).send("Username Updated")
-}); 
-
-app.post('/users/favorites', (req, res) => {
-    res.status(200).send("Movie added to favorites")
+//post requests registers new user 
+app.post('/users/', async (req, res) => {
+    let hashedPassword = Users.hashedPassword(req.body.password);
+    await Users.findOne({username: req.body.username })
+    .then((user) => {
+        if (user) {
+            return res.status(400).send(req.body.username + ' already exists');
+        } else {
+            Users.create({
+                username: req.body.username,
+                password: hashedPassword,
+                email: req.body.email,
+                birthday: req.body.birthday
+            })
+            .then((user) => res.status(201).json(user))
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send('Error: ' + error);
+            });
+        }
+    })
 });
 
-app.delete('/users/favorites/:movie', (req, res) => {
-    res.status(200).send("Movie Removed from Favorites")
+//update request to update user info 
+app.patch('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    await Users.findOneAndUpdate({ username: req.params.username }, {
+        $set: {
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email,
+            birthday: req.body.birthday
+        }
+    }, { new: true })
+        .then((updatedUser) => {
+            res.json(updatedUser);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
 });
 
-app.delete('/users/:user', (req, res) => {
-    res.status(200).send("User Deleted")
+//add a favorite 
+app.post('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    await Users.findOneAndUpdate({ username: req.params.username }, {
+        $push: { 
+            FavoriteMovies: req.body.newFavorite 
+        }
+    }, { new: true })
+        .then((updatedUser) => {
+            res.json(updatedUser);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
 });
+
+//remove a favorite 
+app.delete('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    await Users.findOneAndUpdate({ username: req.params.username }, {
+        $pull: { 
+            FavoriteMovies: req.body.newFavorite 
+        }
+    }, { new: true })
+        .then((updatedUser) => {
+            res.json(updatedUser);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
+});
+
+
+//delete request deletes user 
+app.delete('/users/:user', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    await Users.findOneAndDelete({username: req.params.user})
+    .then((user) => {
+        if(!user) {
+            res.status(400).send(req.params.user + ' was not found');
+        } else {
+            res.status(200).send(req.params.user + ' was deleted.');
+        }
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err)
+    });
+});
+
 
 // //get request returns top 10 json array
 // app.get('/TopTen', (req,res) => {
@@ -141,9 +225,7 @@ app.use(express.static('public'));
 
 
 //create port for request listening
-app.listen(8080, () =>{
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
     console.log('It\'s working! It\'s working!')
 });
-
-
-
