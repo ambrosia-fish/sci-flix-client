@@ -303,3 +303,5 @@
 127.0.0.1 - - [12/Jun/2024:17:53:14 +0000] "POST /users/ HTTP/1.1" 500 56 "-" "PostmanRuntime/7.39.0"
 127.0.0.1 - - [12/Jun/2024:17:53:32 +0000] "POST /users/ HTTP/1.1" 400 1599 "-" "PostmanRuntime/7.39.0"
 127.0.0.1 - - [12/Jun/2024:17:53:51 +0000] "GET /movies/ HTTP/1.1" 201 5348 "-" "PostmanRuntime/7.39.0"
+127.0.0.1 - - [12/Jun/2024:18:19:55 +0000] "POST /users/user1/movies/alien HTTP/1.1" 401 - "-" "PostmanRuntime/7.39.0"
+127.0.0.1 - - [12/Jun/2024:18:19:58 +0000] "DELETE /users/user1/movies/alien HTTP/1.1" 401 - "-" "PostmanRuntime/7.39.0"
