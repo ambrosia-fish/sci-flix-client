@@ -47,7 +47,7 @@ require('./passport');
 app.get('/movies', async (req, res) => {
     await Movies.find()
       .then((movies) => {
-        res.status(201).json(movies);
+        res.status(200).json(movies);
       })
       .catch((error) => {
         console.error(error);
