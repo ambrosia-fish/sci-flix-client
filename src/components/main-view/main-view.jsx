@@ -8,11 +8,13 @@ export const MainView = () => {
 
     useEffect(() => {
         fetch("https://sci-flix-075b51101639.herokuapp.com/movies/")
-            .then(response => response.json())
-            .then(data => {
-                const moviesFromApi = data.map(movie => ({
-                    key: movie._id,
+            .then((response) => response.json())
+            .then((movies) => {
+                const moviesFromApi = movies.map((movie) => ({
+                    _id: movie._id,
                     title: movie.Title,
+                    genre: movie.Genre.Name,
+                    director: movie.Director.Name
                 }));
                 setMovies(moviesFromApi);
             })
@@ -24,10 +26,7 @@ export const MainView = () => {
 
     if (selectedMovie) {
         return (
-            <MovieView
-                movie={selectedMovie}
-                onBackClick={() => setSelectedMovie(null)}
-            />
+            <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)}/>
         );
     }
 
