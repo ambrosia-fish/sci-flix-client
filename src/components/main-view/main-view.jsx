@@ -34,6 +34,7 @@ export const MainView = () => {
         return <div>The list is empty</div>;
     }
 
+
     return (
         <div>
           {movies.map((movie) => (
