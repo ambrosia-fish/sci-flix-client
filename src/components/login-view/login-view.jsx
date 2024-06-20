@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 
-export const LoginView = () => {
+export const LoginView = ({ onLoggedIn }) => {
     const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
     const handleSubmit = (event) => {
         event.preventDefault();
         
@@ -10,7 +11,20 @@ export const LoginView = () => {
             access: username,
             secret: password
         };
-    }
+
+    fetch("https://openlibrary.org/account/login.json", {
+        method: "POST",
+        body: JSON.stringify(data)
+        })
+        .then(response => {
+        if (response.ok) {
+            onLoggedIn(username);
+            console.log('Login Success!')
+        } else {
+            alert("Login failed");
+        }
+        });
+    };    
 
 
 
@@ -22,8 +36,7 @@ export const LoginView = () => {
             </label>
             <label>
                 Password:
-                <input type="password" />
-            </label>
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />            </label>
             <button type="submit">
                 Submit
             </button>
