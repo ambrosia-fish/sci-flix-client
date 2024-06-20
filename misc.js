@@ -1,3 +1,4 @@
+// MainView:
 import React, { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card.jsx";
 import { MovieView } from "../movie-view/movie-view.jsx";
@@ -14,12 +15,12 @@ export const MainView = () => {
     const [token, setToken] = useState(storedToken? storedToken : null);
 
     useEffect(() => {
-        // if (!token) {
-        //     return;
-        // }
+        if (!token) {
+            return;
+        }
 
         fetch("https://sci-flix-075b51101639.herokuapp.com/movies/",  {
-            // headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` }
           })
             .then((response) => response.json())
             .then((movies) => {
@@ -30,7 +31,6 @@ export const MainView = () => {
                     director: movie.Director.Name
                 }));
                 setMovies(moviesFromApi);
-                console.log(moviesFromApi)
             })
             .catch(error => {
                 console.error("Error fetching movies:", error);
@@ -39,7 +39,14 @@ export const MainView = () => {
     
     if (!user) {
         return (
-            <LoginView onLoggedIn={(user) => setUser(user)}/>
+          <>
+            <LoginView onLoggedIn={(user, token) => {
+              setUser(user);
+              setToken(token);
+            }} />
+            or
+            <SignupView />
+          </>
         );
     }
 
@@ -63,3 +70,59 @@ export const MainView = () => {
         </div>
       );
     };
+
+// LoginView  
+import React, { useState, useEffect } from "react";
+
+
+export const LoginView = ({ onLoggedIn }) => {
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        
+        const data = {
+            access: username,
+            secret: password
+        };
+
+    fetch("https://openlibrary.org/account/login.json", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Login response: ", data);
+          if (data.user) {
+            localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("token", data.token);
+            onLoggedIn(data.user, data.token);
+          } else {
+            alert("No such user");
+          }
+        })
+        .catch((e) => {
+          alert("Somethin wrong");
+        });
+    };
+
+
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <label>
+                Username:
+                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+            </label>
+            <label>
+                Password:
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />            </label>
+            <button type="submit">
+                Submit
+            </button>
+        </form>
+    );
+};
