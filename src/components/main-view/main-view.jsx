@@ -10,16 +10,14 @@ export const MainView = () => {
     const storedToken = localStorage.getItem("token");
     const [movies, setMovies] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState(null);
-    const [user, setUser] = useState (storedUser? storedUser : null);
+    const [user, setUser] = useState(storedUser? storedUser : null);
     const [token, setToken] = useState(storedToken? storedToken : null);
 
     useEffect(() => {
-        // if (!token) {
-        //     return;
-        // }
+        if (!token) return;
 
         fetch("https://sci-flix-075b51101639.herokuapp.com/movies/",  {
-            // headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` }
           })
             .then((response) => response.json())
             .then((movies) => {
@@ -30,7 +28,6 @@ export const MainView = () => {
                     director: movie.Director.Name
                 }));
                 setMovies(moviesFromApi);
-                console.log(moviesFromApi)
             })
             .catch(error => {
                 console.error("Error fetching movies:", error);
@@ -39,7 +36,14 @@ export const MainView = () => {
     
     if (!user) {
         return (
-            <LoginView onLoggedIn={(user) => setUser(user)}/>
+            <>
+        <LoginView onLoggedIn={(user, token) => {
+          setUser(user);
+          setToken(token);
+        }} />
+        or
+        <SignupView />
+      </>
         );
     }
 
