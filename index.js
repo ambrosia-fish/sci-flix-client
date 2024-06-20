@@ -43,14 +43,30 @@ const passport = require('passport');
 require('./passport');
 
 //get requests for logging in
-app.post('/users/', async (req, res) => {
-    let hashedPassword = Users.hashPassword(req.body.password);
-    await Users.findOne({username: req.body.username })
+app.post('/login/', async (req, res) => {
+    const { username, password } = req.body;
+    
+    await Users.findOne({ username: username })
     .then((user) => {
-        if (hashedPassword = user.passord) {
-            res.status(200)
+        if (!user) {
+            return res.status(400).send('No such user.');
+        } else {
+            const isPasswordValid = user.validatePassword(password);
+            if (!isPasswordValid) {
+                return res.status(400).send('Incorrect password.');
+            }
+            
+            const token = generateToken(user); // Assuming you have a function to generate a token
+            return res.status(200).json({
+                user: user,
+                token: token
+            });
         }
     })
+    .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+    });
 });
 
 //get request returns list of all movies via JSON 
