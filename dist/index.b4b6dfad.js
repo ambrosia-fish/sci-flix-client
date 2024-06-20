@@ -28450,6 +28450,6 @@ $RefreshReg$(_c, "LoginView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"8CgJR","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gkjki","react":"21dqq"}]},["6xjHh","3wHoO","d8Dch"], "d8Dch", "parcelRequirec570")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"8CgJR","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gkjki"}]},["6xjHh","3wHoO","d8Dch"], "d8Dch", "parcelRequirec570")
 
 //# sourceMappingURL=index.b4b6dfad.js.map
