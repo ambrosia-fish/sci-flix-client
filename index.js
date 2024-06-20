@@ -43,15 +43,21 @@ const passport = require('passport');
 require('./passport');
 
 //get requests for logging in
-app.post('/login/', async (req, res) => {
-    let hashedPassword = Users.hashPassword(req.body.password);
-    await Users.findOne({username: req.body.username })
-    .then((user) => {
-        if (hashedPassword = user.passord) {
-            res.status(200)
-        }
-    })
-});
+app.post('/login', async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      const user = await User.findOne({ username, password });
+  
+      if (user) {
+        res.status(200).json({ message: 'Login successful' });
+      } else {
+        res.status(401).json({ message: 'Invalid credentials' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    }
+  });
 
 //get request returns list of all movies via JSON 
 app.get('/movies', async (req, res) => {
