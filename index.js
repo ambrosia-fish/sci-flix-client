@@ -44,29 +44,20 @@ require('./passport');
 
 //get requests for logging in
 app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-
-    await Users.findOne({ username: username })
-        .then((user) => {
-            if (!user) {
-                return res.status(400).send('No such user.');
-            }
-
-            if (!Users.validatePassword(password, user.password)) {
-                return res.status(400).send('Incorrect password.');
-            }
-
-            const jwt = require('jsonwebtoken');
-            const token = jwt.sign({ id: user._id, username: user.username }, 'your_jwt_secret', { expiresIn: '1d' });
-
-            return res.status(200).json({ user: user, token: token });
-        })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
-        });
-});
-
+    try {
+      const { username, password } = req.body;
+      const user = await User.findOne({ username, password });
+  
+      if (user) {
+        res.status(200).json({ message: 'Login successful' });
+      } else {
+        res.status(401).json({ message: 'Invalid credentials' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    }
+  });
 
 //get request returns list of all movies via JSON 
 app.get('/movies', async (req, res) => {
