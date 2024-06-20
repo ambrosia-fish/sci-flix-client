@@ -43,7 +43,7 @@ const passport = require('passport');
 require('./passport');
 
 //get requests for logging in
-app.post('/login/', async (req, res) => {
+app.post('/users/', async (req, res) => {
     let hashedPassword = Users.hashPassword(req.body.password);
     await Users.findOne({username: req.body.username })
     .then((user) => {
