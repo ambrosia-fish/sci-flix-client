@@ -122,25 +122,27 @@ app.get('/users', passport.authenticate('jwt', { session: false }), async (req,r
 //post requests registers new user 
 app.post('/users/', async (req, res) => {
     let hashedPassword = Users.hashPassword(req.body.password);
-    await Users.findOne({username: req.body.username })
-    .then((user) => {
+
+    try {
+        const user = await Users.findOne({ username: req.body.username });
         if (user) {
             return res.status(400).send(req.body.username + ' already exists');
-        } else {
-            Users.create({
-                username: req.body.username,
-                password: hashedPassword,
-                email: req.body.email,
-                birthday: req.body.birthday
-            })
-            .then((user) => res.status(201).json(user))
-            .catch((error) => {
-                console.error(error);
-                res.status(500).send('Error: ' + error);
-            });
         }
-    })
+
+        const newUser = await Users.create({
+            username: req.body.username,
+            password: hashedPassword,
+            email: req.body.email,
+            birthday: req.body.birthday
+        });
+
+        res.status(201).json(newUser);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Error: ' + error);
+    }
 });
+
 
 //update request to update user info 
 app.patch('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
