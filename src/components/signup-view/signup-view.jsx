@@ -1,4 +1,4 @@
-import{ useState } from "react";
+import { useState } from "react";
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");
@@ -10,13 +10,13 @@ export const SignupView = () => {
     event.preventDefault();
 
     const data = {
-      Username: username,
-      Password: password,
-      Email: email,
-      Birthday: birthday
+      username: username,
+      password: password,
+      email: email,
+      birthday: birthday
     };
 
-    fetch("SIGNUP_URL", {
+    fetch("https://sci-flix-075b51101639.herokuapp.com/users/", { 
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -27,8 +27,11 @@ export const SignupView = () => {
         alert("Signup successful");
         window.location.reload();
       } else {
-        alert("Signup failed");
+        response.text().then((text) => alert(`Signup failed: ${text}`));
       }
+    }).catch((error) => {
+      console.error('Error:', error);
+      alert(`Signup failed: ${error.message}`);
     });
   };
 
