@@ -62,7 +62,7 @@ export const MainView = () => {
 
     return (
         <div>
-            <button onClick={() => { setUser(null); setToken(null); }}>Logout</button>
+            <button onClick={() => { setUser(null); setToken(null); localStorage.clear();}}>Logout</button>
           {movies.map((movie) => (
             <div key={movie._id} onClick={(newSelectedMovie) => {setSelectedMovie(movie)} }>{movie.title}</div>
           ))}
