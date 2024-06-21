@@ -27379,80 +27379,67 @@ var _signupViewJsx = require("../signup-view/signup-view.jsx");
 var _s = $RefreshSig$();
 const MainView = ()=>{
     _s();
-    // Retrieve stored user and token from local storage
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
-    // useState hook to manage the movies state
-    const [movies, setMovies] = (0, _react.useState)([]);
-    // useState hook to manage the selected movie state
-    const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
-    // useState hook to manage the user state
     const [user, setUser] = (0, _react.useState)(storedUser ? storedUser : null);
-    // useState hook to manage the token state
     const [token, setToken] = (0, _react.useState)(storedToken ? storedToken : null);
-    // useEffect hook to fetch movies when the token changes
+    const [movies, setMovies] = (0, _react.useState)([]);
+    const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
     (0, _react.useEffect)(()=>{
-        if (!token) return; // If no token, do nothing
+        if (!token) return;
         fetch("https://sci-flix-075b51101639.herokuapp.com/movies/", {
             headers: {
                 Authorization: `Bearer ${token}`
-            } // Include the token in the request headers
-        }).then((response)=>response.json()) // Parse the response JSON
-        .then((movies)=>{
-            // Map the movies data to the desired format
+            }
+        }).then((response)=>response.json()).then((movies)=>{
             const moviesFromApi = movies.map((movie)=>({
                     _id: movie._id,
                     title: movie.Title,
                     genre: movie.Genre.Name,
                     director: movie.Director.Name
                 }));
-            // Update the movies state with the fetched data
             setMovies(moviesFromApi);
         }).catch((error)=>{
-            console.error("Error fetching movies:", error); // Handle any errors that occur
+            console.error("Error fetching movies:", error);
         });
     }, [
         token
-    ]); // The effect depends on the token
-    // If the user is not logged in, show the login and signup views
+    ]);
     if (!user) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _loginViewJsx.LoginView), {
                 onLoggedIn: (user, token)=>{
-                    setUser(user); // Set the user state
-                    setToken(token); // Set the token state
+                    setUser(user);
+                    setToken(token);
                 }
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 49,
-                columnNumber: 17
+                lineNumber: 42,
+                columnNumber: 9
             }, undefined),
             "or",
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _signupViewJsx.SignupView), {}, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 54,
-                columnNumber: 17
+                lineNumber: 47,
+                columnNumber: 9
             }, undefined)
         ]
     }, void 0, true);
-    // If a movie is selected, show the MovieView component
     if (selectedMovie) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieViewJsx.MovieView), {
         movie: selectedMovie,
         onBackClick: ()=>setSelectedMovie(null)
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 62,
+        lineNumber: 54,
         columnNumber: 13
     }, undefined);
-    // If the movies list is empty, show a message
     if (movies.length === 0) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: "The list is empty"
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 68,
+        lineNumber: 59,
         columnNumber: 16
     }, undefined);
-    // Render the list of movies and a logout button
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -27463,27 +27450,27 @@ const MainView = ()=>{
                 children: "Logout"
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 74,
+                lineNumber: 65,
                 columnNumber: 13
             }, undefined),
             movies.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    onClick: ()=>{
+                    onClick: (newSelectedMovie)=>{
                         setSelectedMovie(movie);
                     },
                     children: movie.title
                 }, movie._id, false, {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 76,
-                    columnNumber: 17
+                    lineNumber: 67,
+                    columnNumber: 13
                 }, undefined))
         ]
     }, void 0, true, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 73,
+        lineNumber: 64,
         columnNumber: 9
     }, undefined);
 };
-_s(MainView, "hFDxRpIbGxP6+QKMAcm8hX/Ql7A=");
+_s(MainView, "skShail9kO25ilQX788tJ78Yq3c=");
 _c = MainView;
 var _c;
 $RefreshReg$(_c, "MainView");
@@ -28419,42 +28406,35 @@ var _reactDefault = parcelHelpers.interopDefault(_react);
 var _s = $RefreshSig$();
 const LoginView = ({ onLoggedIn })=>{
     _s();
-    // useState hook to manage the username state
     const [username, setUsername] = (0, _react.useState)("");
-    // useState hook to manage the password state
     const [password, setPassword] = (0, _react.useState)("");
-    // Function to handle form submission
     const handleSubmit = (event)=>{
-        event.preventDefault(); // Prevent the default form submission behavior
-        // Create a data object with username and password
+        event.preventDefault();
         const data = {
             username: username,
             password: password
         };
-        // Make a POST request to the login endpoint
-        fetch("sci-flix-075b51101639.herokuapp.com/login", {
+        fetch("https://sci-flix-075b51101639.herokuapp.com/login", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json" // Set the content type to JSON
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(data) // Convert the data object to a JSON string
-        }).then((response)=>response.json()) // Parse the response JSON
-        .then((data)=>{
-            console.log("Login response: ", data); // Log the response data to the console
+            body: JSON.stringify(data)
+        }).then((response)=>{
+            if (!response.ok) alert("Network response was not ok");
+            return response.json();
+        }).then((data)=>{
+            console.log("Login response: ", data);
             if (data.user) {
-                // If user data is present, save it to local storage
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", data.token);
-                // Call the onLoggedIn callback with user and token
                 onLoggedIn(data.user, data.token);
-            } else // If no user data, show an alert
-            alert("No such user");
+            } else alert("No such user");
         }).catch((e)=>{
-            // Handle any errors that occur during the fetch
+            console.error("There was a problem with the fetch operation:", e);
             alert("Something went wrong");
         });
     };
-    // Render the login form
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
         onSubmit: handleSubmit,
         children: [
@@ -28464,17 +28444,16 @@ const LoginView = ({ onLoggedIn })=>{
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                         type: "text",
                         value: username,
-                        onChange: (e)=>setUsername(e.target.value),
-                        required: true
+                        onChange: (e)=>setUsername(e.target.value)
                     }, void 0, false, {
                         fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 54,
+                        lineNumber: 48,
                         columnNumber: 17
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 51,
+                lineNumber: 46,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -28483,31 +28462,30 @@ const LoginView = ({ onLoggedIn })=>{
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                         type: "password",
                         value: password,
-                        onChange: (e)=>setPassword(e.target.value),
-                        required: true
+                        onChange: (e)=>setPassword(e.target.value)
                     }, void 0, false, {
                         fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 59,
+                        lineNumber: 52,
                         columnNumber: 17
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 56,
+                lineNumber: 50,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                 type: "submit",
-                children: "Submit"
+                children: "Login"
             }, void 0, false, {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 61,
+                lineNumber: 54,
                 columnNumber: 13
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/login-view/login-view.jsx",
-        lineNumber: 50,
+        lineNumber: 45,
         columnNumber: 9
     }, undefined);
 };
@@ -28536,38 +28514,34 @@ var _react = require("react");
 var _s = $RefreshSig$();
 const SignupView = ()=>{
     _s();
-    // useState hooks to manage the form fields' states
     const [username, setUsername] = (0, _react.useState)("");
     const [password, setPassword] = (0, _react.useState)("");
     const [email, setEmail] = (0, _react.useState)("");
     const [birthday, setBirthday] = (0, _react.useState)("");
-    // Function to handle form submission
     const handleSubmit = (event)=>{
-        event.preventDefault(); // Prevent the default form submission behavior
-        // Create a data object with the form field values
+        event.preventDefault();
         const data = {
-            Username: username,
-            Password: password,
-            Email: email,
-            Birthday: birthday
+            username: username,
+            password: password,
+            email: email,
+            birthday: birthday
         };
-        // Make a POST request to the signup endpoint
-        fetch("SIGNUP_URL", {
+        fetch("https://sci-flix-075b51101639.herokuapp.com/users/", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
-                "Content-Type": "application/json" // Set the content type to JSON
+                "Content-Type": "application/json"
             }
         }).then((response)=>{
             if (response.ok) {
-                // If the response is ok, show a success alert and reload the page
                 alert("Signup successful");
                 window.location.reload();
-            } else // If the response is not ok, show a failure alert
-            alert("Signup failed");
+            } else response.text().then((text)=>alert(`Signup failed: ${text}`));
+        }).catch((error)=>{
+            console.error("Error:", error);
+            alert(`Signup failed: ${error.message}`);
         });
     };
-    // Render the signup form
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
         onSubmit: handleSubmit,
         children: [
@@ -28582,13 +28556,13 @@ const SignupView = ()=>{
                         minLength: "3"
                     }, void 0, false, {
                         fileName: "src/components/signup-view/signup-view.jsx",
-                        lineNumber: 48,
+                        lineNumber: 42,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 45,
+                lineNumber: 40,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -28601,13 +28575,13 @@ const SignupView = ()=>{
                         required: true
                     }, void 0, false, {
                         fileName: "src/components/signup-view/signup-view.jsx",
-                        lineNumber: 59,
+                        lineNumber: 52,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 56,
+                lineNumber: 50,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -28620,13 +28594,13 @@ const SignupView = ()=>{
                         required: true
                     }, void 0, false, {
                         fileName: "src/components/signup-view/signup-view.jsx",
-                        lineNumber: 69,
+                        lineNumber: 61,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 66,
+                lineNumber: 59,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -28639,13 +28613,13 @@ const SignupView = ()=>{
                         required: true
                     }, void 0, false, {
                         fileName: "src/components/signup-view/signup-view.jsx",
-                        lineNumber: 79,
+                        lineNumber: 70,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 76,
+                lineNumber: 68,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -28653,13 +28627,13 @@ const SignupView = ()=>{
                 children: "Submit"
             }, void 0, false, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 86,
+                lineNumber: 77,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/signup-view/signup-view.jsx",
-        lineNumber: 44,
+        lineNumber: 39,
         columnNumber: 5
     }, undefined);
 };
