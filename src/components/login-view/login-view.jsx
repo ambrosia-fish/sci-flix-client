@@ -1,66 +1,57 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-// Define the LoginView component, which takes an onLoggedIn prop
 export const LoginView = ({ onLoggedIn }) => {
-    // useState hook to manage the username state
     const [username, setUsername] = useState("");
-    // useState hook to manage the password state
     const [password, setPassword] = useState("");
-    
-    // Function to handle form submission
+
     const handleSubmit = (event) => {
-        event.preventDefault(); // Prevent the default form submission behavior
-        
-        // Create a data object with username and password
+        event.preventDefault();
+
         const data = {
             username: username,
-            password: password
+            password: password  
         };
 
-        // Make a POST request to the login endpoint
-        fetch("sci-flix-075b51101639.herokuapp.com/login", {
-            method: "POST", // Specify the request method
+        fetch("https://sci-flix-075b51101639.herokuapp.com/login", {
+            method: "POST",
             headers: {
-                "Content-Type": "application/json" // Set the content type to JSON
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(data) // Convert the data object to a JSON string
+            body: JSON.stringify(data)
         })
-        .then((response) => response.json()) // Parse the response JSON
+        .then((response) => {
+            if (!response.ok) {
+                alert('Network response was not ok');
+            }
+            return response.json();
+        })
         .then((data) => {
-            console.log("Login response: ", data); // Log the response data to the console
+            console.log("Login response: ", data);
             if (data.user) {
-                // If user data is present, save it to local storage
                 localStorage.setItem("user", JSON.stringify(data.user));
-                localStorage.setItem("token", data.token);
-                // Call the onLoggedIn callback with user and token
+                localStorage.setItem("token", data.token);  
                 onLoggedIn(data.user, data.token);
             } else {
-                // If no user data, show an alert
                 alert("No such user");
             }
         })
         .catch((e) => {
-            // Handle any errors that occur during the fetch
+            console.error("There was a problem with the fetch operation:", e);
             alert("Something went wrong");
         });
     };
 
-    // Render the login form
     return (
         <form onSubmit={handleSubmit}>
             <label>
                 Username:
-                {/* Input field for the username */}
-                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
             </label>
             <label>
                 Password:
-                {/* Input field for the password */}
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </label>
-            <button type="submit">
-                Submit
-            </button>
+            <button type="submit">Login</button>
         </form>
     );
 };
