@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // cors functionality
 
 const cors = require('cors');
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:1234' }));
 
 let auth = require('./auth')(app);
 const passport = require('passport');
