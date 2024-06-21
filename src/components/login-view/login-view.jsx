@@ -20,9 +20,7 @@ export const LoginView = ({ onLoggedIn }) => {
             body: JSON.stringify(data)
         })
         .then((response) => {
-            if (!response.ok) {
-                alert('Network response was not ok');
-            }
+            if (!response.ok) {}
             return response.json();
         })
         .then((data) => {
@@ -36,7 +34,6 @@ export const LoginView = ({ onLoggedIn }) => {
             }
         })
         .catch((e) => {
-            console.error("There was a problem with the fetch operation:", e);
             alert("Something went wrong");
         });
     };
