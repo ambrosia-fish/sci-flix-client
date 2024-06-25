@@ -3,3 +3,7 @@ $color: steelblue;
 .my-flix {
   color: $color;
 }
+
+$primary: #25375c;
+$body-bg: Honeydew;
+@import "~bootstrap/scss/bootstrap.scss";
