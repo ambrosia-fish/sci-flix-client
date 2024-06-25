@@ -1,20 +1,25 @@
-import "./movie-view.scss";
-import Button from "react-bootstrap/Button"
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col"
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card"
+import "./movie-view.scss";
 
-export const MovieView = ({ movie, onBackClick }) => {
+export const MovieView = ({ movies }) => {
+    const { movieId } = useParams();
+
+    const movie = movies.find((m) => m.id === movieId);
+
     return (
         <div>
             <Card className="h-100 ">
                 <img className="moviePoster" src="https://placehold.co/400x600" />
                 <Card.Body style={{}}>
                     <Card.Title>{movie.title}</Card.Title>
-                    <Card.Text>Directed by: {movie.director}</Card.Text>
+                    <Card.Text>Directed by: {movie.director}<br /> Subgenre: {movie.genre}</Card.Text>
                 </Card.Body>
-            </Card> 
-            <Button onClick={onBackClick} className="back-button">Back</Button>
+            </Card>
+            <Link to={`/`}>
+                <button className="back-button">Back</button>
+            </Link>
         </div>
     );
-};
+}
