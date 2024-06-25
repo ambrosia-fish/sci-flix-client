@@ -164,37 +164,70 @@ app.patch('/users/:username', passport.authenticate('jwt', { session: false }), 
         });
 });
 
-//add a favorite 
 app.post('/users/:username/favorites', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    await Users.findOneAndUpdate({ username: req.params.username }, {
-        $push: { 
-            favoriteMovies: req.body.newFavorite 
+    const { username } = req.params;
+    const { newFavorite } = req.body;
+
+    try {
+        const user = await Users.findOne({ username });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
         }
-    }, { new: true })
-        .then((updatedUser) => {
-            res.json(updatedUser);
-        })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
-        });
+
+        const isFavorite = user.favoriteMovies.includes(newFavorite);
+
+        if (isFavorite) {
+            // If movie is already a favorite, remove it
+            await Users.findOneAndUpdate({ username }, {
+                $pull: { favoriteMovies: newFavorite }
+            }, { new: true });
+            res.json({ message: 'Movie removed from favorites' });
+        } else {
+            // If movie is not a favorite, add it
+            await Users.findOneAndUpdate({ username }, {
+                $addToSet: { favoriteMovies: newFavorite }
+            }, { new: true });
+            res.json({ message: 'Movie added to favorites' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
 });
 
-//remove a favorite 
-app.delete('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    await Users.findOneAndUpdate({ username: req.params.username }, {
-        $pull: { 
-            favoriteMovies: req.body.newFavorite 
-        }
-    }, { new: true })
-        .then((updatedUser) => {
-            res.json(updatedUser);
-        })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
-        });
-});
+
+// //add a favorite 
+// app.post('/users/:username/favorites', passport.authenticate('jwt', { session: false }), async (req, res) => {
+//     await Users.findOneAndUpdate({ username: req.params.username }, {
+//         $push: { 
+//             favoriteMovies: req.body.newFavorite 
+//         }
+//     }, { new: true })
+//         .then((updatedUser) => {
+//             res.json(updatedUser);
+//         })
+//         .catch((err) => {
+//             console.error(err);
+//             res.status(500).send('Error: ' + err);
+//         });
+// });
+
+// //remove a favorite 
+// app.delete('/users/:username/favorites', passport.authenticate('jwt', { session: false }), async (req, res) => {
+//     await Users.findOneAndUpdate({ username: req.params.username }, {
+//         $pull: { 
+//             favoriteMovies: req.body.newFavorite 
+//         }
+//     }, { new: true })
+//         .then((updatedUser) => {
+//             res.json(updatedUser);
+//         })
+//         .catch((err) => {
+//             console.error(err);
+//             res.status(500).send('Error: ' + err);
+//         });
+// });
 
 
 //delete request deletes user 
