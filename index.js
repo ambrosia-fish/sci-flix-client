@@ -168,7 +168,7 @@ app.patch('/users/:username', passport.authenticate('jwt', { session: false }), 
 app.post('/users/:username/favorites', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOneAndUpdate({ username: req.params.username }, {
         $push: { 
-            favoriteMovies: req.body.newFavorite.title 
+            favoriteMovies: req.body.newFavorite 
         }
     }, { new: true })
         .then((updatedUser) => {
