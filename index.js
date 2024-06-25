@@ -186,7 +186,7 @@ app.post('/users/:username/favorites', passport.authenticate('jwt', { session: f
         } else {
             // If movie is not a favorite, add it
             await Users.findOneAndUpdate({ username }, {
-                $addToSet: { favoriteMovies: newFavorite }
+                $push: { favoriteMovies: newFavorite }
             }, { new: true });
             res.json({ message: 'Movie added to favorites' });
         }
