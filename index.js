@@ -165,7 +165,7 @@ app.patch('/users/:username', passport.authenticate('jwt', { session: false }), 
 });
 
 //add a favorite 
-app.post('/users/:username/movies/favorites', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.post('/users/:username/favorites', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOneAndUpdate({ username: req.params.username }, {
         $push: { 
             favoriteMovies: req.body.newFavorite 
