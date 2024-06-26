@@ -123,7 +123,7 @@ app.get('/users', async (req,res) => {
 app.get('/users/:user', async (req, res) => {
     await Users.findOne({ username: req.params.user })
     .then((user) => {
-        res.status(201).json(user);
+        res.status(200).json(user);
     })
     .catch((err) => {
         console.error(err);
