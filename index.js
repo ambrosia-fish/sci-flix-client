@@ -119,6 +119,18 @@ app.get('/users', async (req,res) => {
     });
 });
 
+// get returns single user
+app.get('/users/:user', async (req, res) => {
+    await Users.findOne({ username: req.params.user })
+    .then((user) => {
+        res.status(201).json(user);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+});
+
 //post requests registers new user 
 app.post('/users/', async (req, res) => {
     let hashedPassword = Users.hashPassword(req.body.password);
