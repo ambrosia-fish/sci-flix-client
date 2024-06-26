@@ -121,14 +121,14 @@ app.get('/users', async (req,res) => {
 
 // get returns single user
 app.get('/users/:user', async (req, res) => {
-    await Users.findOne({ username: req.params.user })
-    .then((user) => {
+    try {
+        const user = await Users.findOne({ username: req.params.user });
+        if (!user) return res.status(404).json({ error: 'User not found' });
         res.status(200).json(user);
-    })
-    .catch((err) => {
+    } catch (err) {
         console.error(err);
-        res.status(500).send('Error: ' + err);
-    });
+        res.status(500).send('Error: ' + err.message);
+    }
 });
 
 //post requests registers new user 
