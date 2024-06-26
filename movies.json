@@ -1,5 +1,7 @@
 [
     {
+        "Title": "The Thing",
+        "Description": "An Antarctic research team encounters a shape-shifting alien that can imitate any creature, leading to paranoia and terror.",
         "Genre": {
             "Name": "Horror",
             "Description": "Horror films are intended to, or have the capacity to frighten, scare, or disgust."
@@ -11,12 +13,12 @@
             "Death": null
         },
         "Actors": [],
-        "_id": "6669c19f33f0e0e7e9961554",
-        "Title": "The Thing",
-        "Description": "An Antarctic research team encounters a shape-shifting alien that can imitate any creature, leading to paranoia and terror.",
-        "Poster": "https://theposterdb.com/api/assets/38139"
+        "Poster": "https://theposterdb.com/api/assets/38139",
+        "Featured": false
     },
     {
+        "Title": "2001: A Space Odyssey",
+        "Description": "A visually stunning sci-fi epic exploring human evolution, AI, and cosmic mysteries in deep space.",
         "Genre": {
             "Name": "Epic",
             "Description": "Epic films are a style of filmmaking with large-scale, sweeping scope, and spectacle."
@@ -28,12 +30,12 @@
             "Death": "1999-01-01T00:00:00.000Z"
         },
         "Actors": [],
-        "_id": "6669c19f33f0e0e7e9961555",
-        "Title": "2001: A Space Odyssey",
-        "Description": "A visually stunning sci-fi epic exploring human evolution, AI, and cosmic mysteries in deep space.",
-        "Poster": "https://theposterdb.com/api/assets/63118"
+        "Poster": "https://theposterdb.com/api/assets/63118",
+        "Featured": false
     },
     {
+        "Title": "Alien",
+        "Description": "The crew of the Nostromo battles a terrifying alien life form in this suspenseful and claustrophobic horror classic.",
         "Genre": {
             "Name": "Horror",
             "Description": "Horror films are intended to, or have the capacity to frighten, scare, or disgust."
@@ -45,12 +47,12 @@
             "Death": null
         },
         "Actors": [],
-        "_id": "6669c19f33f0e0e7e9961556",
-        "Title": "Alien",
-        "Description": "The crew of the Nostromo battles a terrifying alien life form in this suspenseful and claustrophobic horror classic.",
-        "Poster": "https://theposterdb.com/api/assets/27062"
+        "Poster": "https://theposterdb.com/api/assets/27062",
+        "Featured": false
     },
     {
+        "Title": "The Terminator",
+        "Description": "A relentless cyborg assassin is sent from the future to kill Sarah Connor, the mother of a future resistance leader.",
         "Genre": {
             "Name": "Action",
             "Description": "Action films are a genre in which the protagonist is thrust into a series of events that typically include violence and physical feats."
@@ -62,12 +64,12 @@
             "Death": null
         },
         "Actors": [],
-        "_id": "6669c19f33f0e0e7e9961557",
-        "Title": "The Terminator",
-        "Description": "A relentless cyborg assassin is sent from the future to kill Sarah Connor, the mother of a future resistance leader.",
-        "Poster": "https://theposterdb.com/api/assets/151292"
+        "Poster": "https://theposterdb.com/api/assets/151292",
+        "Featured": false
     },
     {
+        "Title": "Blade Runner",
+        "Description": "In a dystopian future, a blade runner hunts down rogue androids while grappling with his own humanity.",
         "Genre": {
             "Name": "Neo-noir",
             "Description": "Neo-noir is a modern or contemporary motion picture rendition of film noir, emphasizing cynical attitudes and sexual motivations."
@@ -79,12 +81,12 @@
             "Death": null
         },
         "Actors": [],
-        "_id": "6669c19f33f0e0e7e9961558",
-        "Title": "Blade Runner",
-        "Description": "In a dystopian future, a blade runner hunts down rogue androids while grappling with his own humanity.",
-        "Poster": "https://theposterdb.com/api/assets/50381"
+        "Poster": "https://theposterdb.com/api/assets/50381",
+        "Featured": false
     },
     {
+        "Title": "Arrival",
+        "Description": "A linguist works to communicate with mysterious alien visitors and unravels profound implications for humanity and herself.",
         "Genre": {
             "Name": "Drama",
             "Description": "Drama films are serious presentations or stories with settings or life situations that portray realistic characters in conflict."
@@ -96,12 +98,12 @@
             "Death": null
         },
         "Actors": [],
-        "_id": "6669c19f33f0e0e7e9961559",
-        "Title": "Arrival",
-        "Description": "A linguist works to communicate with mysterious alien visitors and unravels profound implications for humanity and herself.",
-        "Poster": "https://theposterdb.com/api/assets/64299"
+        "Poster": "https://theposterdb.com/api/assets/64299",
+        "Featured": false
     },
     {
+        "Title": "The Matrix",
+        "Description": "A hacker discovers the shocking truth about his reality and leads a rebellion against the machines controlling it.",
         "Genre": {
             "Name": "Action",
             "Description": "Action films are a genre in which the protagonist is thrust into a series of events that typically include violence and physical feats."
@@ -109,15 +111,16 @@
         "Director": {
             "Name": "The Wachowski Sisters",
             "Bio": "Lana Wachowski and Lilly Wachowski are American film and television directors, writers, and producers.",
+            "Birth": null,
             "Death": null
         },
         "Actors": [],
-        "_id": "6669c19f33f0e0e7e996155a",
-        "Title": "The Matrix",
-        "Description": "A hacker discovers the shocking truth about his reality and leads a rebellion against the machines controlling it.",
-        "Poster": "https://theposterdb.com/api/assets/195196"
+        "Poster": "https://theposterdb.com/api/assets/195196",
+        "Featured": false
     },
     {
+        "Title": "Jurassic Park",
+        "Description": "A revolutionary theme park with living dinosaurs turns deadly as the prehistoric creatures break free and hunt the visitors.",
         "Genre": {
             "Name": "Adventure",
             "Description": "Adventure films are a genre that often includes exciting, unusual, and often risky experiences or exploits."
@@ -129,12 +132,12 @@
             "Death": null
         },
         "Actors": [],
-        "_id": "6669c19f33f0e0e7e996155b",
-        "Title": "Jurassic Park",
-        "Description": "A revolutionary theme park with living dinosaurs turns deadly as the prehistoric creatures break free and hunt the visitors.",
-        "Poster": "https://image.tmdb.org/t/p/original/oU7Oq2kFAAlGqbU4VoAE36g4hoI.jpg"
+        "Poster": "https://image.tmdb.org/t/p/original/oU7Oq2kFAAlGqbU4VoAE36g4hoI.jpg",
+        "Featured": false
     },
     {
+        "Title": "Dune: Part Two",
+        "Description": "Paul Atreides continues his journey on Arrakis, facing new challenges and consolidating his power against formidable foes.",
         "Genre": {
             "Name": "Epic",
             "Description": "Epic films are a style of filmmaking with large-scale, sweeping scope, and spectacle."
@@ -146,12 +149,12 @@
             "Death": null
         },
         "Actors": [],
-        "_id": "6669c19f33f0e0e7e996155c",
-        "Title": "Dune: Part Two",
-        "Description": "Paul Atreides continues his journey on Arrakis, facing new challenges and consolidating his power against formidable foes.",
-        "Poster": "https://theposterdb.com/api/assets/356990"
+        "Poster": "https://theposterdb.com/api/assets/356990",
+        "Featured": false
     },
     {
+        "Title": "Back to the Future",
+        "Description": "Teenager Marty McFly travels back to 1955 and must ensure his parents meet and fall in love to return to the present.",
         "Genre": {
             "Name": "Adventure",
             "Description": "Adventure films are a genre that often includes exciting, unusual, and often risky experiences or exploits."
@@ -163,9 +166,7 @@
             "Death": null
         },
         "Actors": [],
-        "_id": "6669c19f33f0e0e7e996155d",
-        "Title": "Back to the Future",
-        "Description": "Teenager Marty McFly travels back to 1955 and must ensure his parents meet and fall in love to return to the present.",
-        "Poster": "https://image.tmdb.org/t/p/original/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg"
+        "Poster": "https://image.tmdb.org/t/p/original/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg",
+        "Featured": false
     }
 ]
