@@ -36,7 +36,6 @@ export const MainView = () => {
           director: movie.Director.Name,
         }));
         setMovies(moviesFromApi);
-        console.log("Fetch success!");
       })
       .catch((error) => {
         console.error("Error fetching movies:", error);
@@ -126,7 +125,7 @@ export const MainView = () => {
                   <Navigate to="/login" replace />
                 ) : (
                   <Col md={8}>
-                    <ProfileView />
+                      <ProfileView movies={movies} user={user}  />
                   </Col>
                 )}
               </>
