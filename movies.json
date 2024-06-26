@@ -1,4 +1,5 @@
-[
+{
+  "movies" : [
     {
         "Title": "The Thing",
         "Description": "An Antarctic research team encounters a shape-shifting alien that can imitate any creature, leading to paranoia and terror.",
@@ -9,12 +10,10 @@
         "Director": {
             "Name": "John Carpenter",
             "Bio": "John Howard Carpenter is an American filmmaker, screenwriter, and composer.",
-            "Birth": "1948-01-01T00:00:00.000Z",
-            "Death": null
+            "Birth": "1948-01-01T00:00:00.000Z"
         },
         "Actors": [],
-        "Poster": "https://theposterdb.com/api/assets/38139",
-        "Featured": false
+        "Poster": "https://theposterdb.com/api/assets/38139"
     },
     {
         "Title": "2001: A Space Odyssey",
@@ -30,8 +29,7 @@
             "Death": "1999-01-01T00:00:00.000Z"
         },
         "Actors": [],
-        "Poster": "https://theposterdb.com/api/assets/63118",
-        "Featured": false
+        "Poster": "https://theposterdb.com/api/assets/63118"
     },
     {
         "Title": "Alien",
@@ -43,12 +41,10 @@
         "Director": {
             "Name": "Ridley Scott",
             "Bio": "Sir Ridley Scott is an English film director and producer, known for his stylish visuals and innovative storytelling.",
-            "Birth": "1937-01-01T00:00:00.000Z",
-            "Death": null
+            "Birth": "1937-01-01T00:00:00.000Z"
         },
         "Actors": [],
-        "Poster": "https://theposterdb.com/api/assets/27062",
-        "Featured": false
+        "Poster": "https://theposterdb.com/api/assets/27062"
     },
     {
         "Title": "The Terminator",
@@ -60,12 +56,10 @@
         "Director": {
             "Name": "James Cameron",
             "Bio": "James Francis Cameron is a Canadian filmmaker and environmentalist.",
-            "Birth": "1954-01-01T00:00:00.000Z",
-            "Death": null
+            "Birth": "1954-01-01T00:00:00.000Z"
         },
         "Actors": [],
-        "Poster": "https://theposterdb.com/api/assets/151292",
-        "Featured": false
+        "Poster": "https://theposterdb.com/api/assets/151292"
     },
     {
         "Title": "Blade Runner",
@@ -77,12 +71,10 @@
         "Director": {
             "Name": "Ridley Scott",
             "Bio": "Sir Ridley Scott is an English film director and producer, known for his stylish visuals and innovative storytelling.",
-            "Birth": "1937-01-01T00:00:00.000Z",
-            "Death": null
+            "Birth": "1937-01-01T00:00:00.000Z"
         },
         "Actors": [],
-        "Poster": "https://theposterdb.com/api/assets/50381",
-        "Featured": false
+        "Poster": "https://theposterdb.com/api/assets/50381"
     },
     {
         "Title": "Arrival",
@@ -94,12 +86,10 @@
         "Director": {
             "Name": "Denis Villeneuve",
             "Bio": "Denis Villeneuve is a Canadian filmmaker known for his dark and intense films.",
-            "Birth": "1967-01-01T00:00:00.000Z",
-            "Death": null
+            "Birth": "1967-01-01T00:00:00.000Z"
         },
         "Actors": [],
-        "Poster": "https://theposterdb.com/api/assets/64299",
-        "Featured": false
+        "Poster": "https://theposterdb.com/api/assets/64299"
     },
     {
         "Title": "The Matrix",
@@ -110,13 +100,10 @@
         },
         "Director": {
             "Name": "The Wachowski Sisters",
-            "Bio": "Lana Wachowski and Lilly Wachowski are American film and television directors, writers, and producers.",
-            "Birth": null,
-            "Death": null
+            "Bio": "Lana Wachowski and Lilly Wachowski are American film and television directors, writers, and producers."
         },
         "Actors": [],
-        "Poster": "https://theposterdb.com/api/assets/195196",
-        "Featured": false
+        "Poster": "https://theposterdb.com/api/assets/195196"
     },
     {
         "Title": "Jurassic Park",
@@ -128,12 +115,10 @@
         "Director": {
             "Name": "Steven Spielberg",
             "Bio": "Steven Allan Spielberg is an American film director, producer, and screenwriter.",
-            "Birth": "1946-01-01T00:00:00.000Z",
-            "Death": null
+            "Birth": "1946-01-01T00:00:00.000Z"
         },
         "Actors": [],
-        "Poster": "https://image.tmdb.org/t/p/original/oU7Oq2kFAAlGqbU4VoAE36g4hoI.jpg",
-        "Featured": false
+        "Poster": "https://image.tmdb.org/t/p/original/oU7Oq2kFAAlGqbU4VoAE36g4hoI.jpg"
     },
     {
         "Title": "Dune: Part Two",
@@ -145,12 +130,10 @@
         "Director": {
             "Name": "Denis Villeneuve",
             "Bio": "Denis Villeneuve is a Canadian filmmaker known for his dark and intense films.",
-            "Birth": "1967-01-01T00:00:00.000Z",
-            "Death": null
+            "Birth": "1967-01-01T00:00:00.000Z"
         },
         "Actors": [],
-        "Poster": "https://theposterdb.com/api/assets/356990",
-        "Featured": false
+        "Poster": "https://theposterdb.com/api/assets/356990"
     },
     {
         "Title": "Back to the Future",
@@ -162,11 +145,10 @@
         "Director": {
             "Name": "Robert Zemeckis",
             "Bio": "Robert Lee Zemeckis is an American filmmaker and screenwriter.",
-            "Birth": "1952-01-01T00:00:00.000Z",
-            "Death": null
+            "Birth": "1952-01-01T00:00:00.000Z"
         },
         "Actors": [],
-        "Poster": "https://image.tmdb.org/t/p/original/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg",
-        "Featured": false
+        "Poster": "https://image.tmdb.org/t/p/original/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg"
     }
-]
+  ]
+}
