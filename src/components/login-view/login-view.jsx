@@ -29,13 +29,12 @@ export const LoginView = ({}) => {
             if (data.user) {
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", data.token);  
-                window.location.reload();
             } else {
                 alert("No such user");
             }
         })
         .then(() => {
-            console.log(data.username)
+            window.location.href = "/"
         })
         .catch((e) => {
             alert("Something went wrong");
