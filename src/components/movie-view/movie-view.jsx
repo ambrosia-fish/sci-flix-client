@@ -34,7 +34,7 @@ export const MovieView = ({ movies }) => {
     return (
         <div>
             <Card className="h-100 ">
-                <img className="moviePoster" src="https://placehold.co/400x600" />
+                <img className="moviePoster" src={movie.poster} />
                 <Card.Body style={{}}>
                     <Card.Title>{movie.title}</Card.Title>
                     <Card.Text>Directed by: {movie.director}<br /> Subgenre: {movie.genre}</Card.Text>

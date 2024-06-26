@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 export const MovieCard = ({movie, onMovieClick}) => {
     return (
         <Card className="h-100">
-            <Card.Img variant="top" src="https://placehold.co/400x600" />
+            <Card.Img variant="top" src={movie.poster
+            } />
             <Card.Body style={{}}>
                 <Card.Title>{movie.title}</Card.Title>
                 <Card.Text>Directed by: {movie.director}</Card.Text>

@@ -34,6 +34,7 @@ export const MainView = () => {
           title: movie.Title,
           genre: movie.Genre.Name,
           director: movie.Director.Name,
+          poster: movie.Poster
         }));
         setMovies(moviesFromApi);
       })
