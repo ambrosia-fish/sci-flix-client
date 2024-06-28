@@ -169,11 +169,10 @@ app.post('/users/', async (req, res) => {
 
 //update request to update user info 
 app.patch('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    let hashedPassword = Users.hashPassword(req.body.password);
     await Users.findOneAndUpdate({ username: req.params.username }, {
         $set: {
             username: req.body.username,
-            password: hashedPassword,
+            password: Users.hashPassword(req.body.password),
             email: req.body.email,
             birthday: req.body.birthday
         }
