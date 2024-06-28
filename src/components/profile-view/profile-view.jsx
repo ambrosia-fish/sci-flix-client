@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 import Col from "react-bootstrap/Col";
 import { MovieCard } from "../movie-card/movie-card.jsx";
 
+// ProfileView component
 export const ProfileView = ({ movies, user }) => {
+  // State variable for refreshed user data
   const [refreshedUser, setRefreshedUser] = useState(null);
 
+  // Fetch updated user data when the component mounts or user.username changes
   useEffect(() => {
     fetch(`https://sci-flix-075b51101639.herokuapp.com/users/${user.username}`)
       .then((response) => {
@@ -23,7 +26,7 @@ export const ProfileView = ({ movies, user }) => {
       });
   }, [user.username]); 
 
- 
+  // Filter movies to get the user's favorite movies
   let favoriteMovies = [];
   if (refreshedUser) {
     favoriteMovies = movies.filter((m) => refreshedUser.favoriteMovies.includes(m.id));
