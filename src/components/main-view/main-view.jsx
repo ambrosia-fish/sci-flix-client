@@ -59,8 +59,8 @@ export const MainView = () => {
         onLoggedOut={() => {
           setUser(null);
           setToken(null);
-          localStorage.removeItem('user');
-          localStorage.removeItem('token'); 
+          localStorage.removeItem("user");
+          localStorage.removeItem("token");
         }}
       />
       <Row className="justify-content-md-center">
