@@ -9,18 +9,22 @@ import { ProfileEdit } from "../profile-edit/profile-edit.jsx";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { ProfileView } from "../profile-view/profile-view.jsx";
-import { ProfileEdit } from "../profile-edit/profile-edit.jsx";
 
+// MainView component
 export const MainView = () => {
+  // Retrieve stored user and token from localStorage
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
 
+  // State variables for user, token, movies, and filter
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
+  const [filter, setFilter] = useState(""); 
 
+  // Effect to fetch movies if token is available
   useEffect(() => {
     if (!token) return;
 
@@ -43,6 +47,11 @@ export const MainView = () => {
       });
   }, [token]);
 
+  // Filter movies based on filter state
+  const filteredMovies = movies.filter((movie) =>
+    movie.title.toLowerCase().includes(filter.toLowerCase())
+  );
+
   return (
     <BrowserRouter>
       <NavigationBar
@@ -53,6 +62,7 @@ export const MainView = () => {
       />
       <Row className="justify-content-md-center">
         <Routes>
+          {/* Route for signup */}
           <Route
             path="/signup"
             element={
@@ -67,6 +77,7 @@ export const MainView = () => {
               </>
             }
           />
+          {/* Route for login */}
           <Route
             path="/login"
             element={
@@ -75,12 +86,13 @@ export const MainView = () => {
                   <Navigate to="/" />
                 ) : (
                   <Col md={5}>
-                    <LoginView/>
+                    <LoginView />
                   </Col>
                 )}
               </>
             }
           />
+          {/* Route for movie details */}
           <Route
             path="/movies/:movieId"
             element={
@@ -95,6 +107,7 @@ export const MainView = () => {
               </>
             }
           />
+          {/* Route for home */}
           <Route
             path="/"
             element={
@@ -105,8 +118,15 @@ export const MainView = () => {
                   <Col>The List is Empty!</Col>
                 ) : (
                   <>
-                    {movies.map((movie) => (
-                      <Col className="mb-4" key={movie.title} md={3}>
+                    <Form.Control
+                      type="text"
+                      placeholder="Filter by title"
+                      value={filter}
+                      onChange={(e) => setFilter(e.target.value)}
+                      className="mb-4"
+                    />
+                    {filteredMovies.map((movie) => (
+                      <Col className="mb-4" key={movie.id} md={3}>
                         <MovieCard
                           key={movie.id}
                           movie={movie}
@@ -118,6 +138,7 @@ export const MainView = () => {
               </>
             }
           />
+          {/* Route for profile view */}
           <Route
             path="/profile/"
             element={
@@ -126,12 +147,13 @@ export const MainView = () => {
                   <Navigate to="/login" replace />
                 ) : (
                   <Col md={8}>
-                      <ProfileView movies={movies} user={user}  />
+                    <ProfileView movies={movies} user={user} />
                   </Col>
                 )}
               </>
             }
           />
+          {/* Route for profile edit */}
           <Route
             path="/profile/edit"
             element={
