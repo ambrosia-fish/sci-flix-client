@@ -32,9 +32,9 @@ export const ProfileEdit = () => {
       method: "PATCH",
       body: JSON.stringify(data),
     }).then((response) => {
-      console.log(data)
       if (response.ok) {
         alert("User updated successfully");
+        console.log(response);
         localStorage.removeItem('token'); 
         localStorage.removeItem('user');
         window.location.reload();
