@@ -10,21 +10,18 @@ import { ProfileEdit } from "../profile-edit/profile-edit.jsx";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
+import Container from "react-bootstrap/Container";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-// MainView component
 export const MainView = () => {
-  // Retrieve stored user and token from localStorage
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
 
-  // State variables for user, token, movies, and filter
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
-  const [filter, setFilter] = useState(""); 
+  const [filter, setFilter] = useState("");
 
-  // Effect to fetch movies if token is available
   useEffect(() => {
     if (!token) return;
 
@@ -47,7 +44,6 @@ export const MainView = () => {
       });
   }, [token]);
 
-  // Filter movies based on filter state
   const filteredMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(filter.toLowerCase())
   );
@@ -63,9 +59,8 @@ export const MainView = () => {
           localStorage.removeItem("token");
         }}
       />
-      <Row className="justify-content-md-center">
+      <Container>
         <Routes>
-          {/* Route for signup */}
           <Route
             path="/signup"
             element={
@@ -80,7 +75,6 @@ export const MainView = () => {
               </>
             }
           />
-          {/* Route for login */}
           <Route
             path="/login"
             element={
@@ -89,13 +83,15 @@ export const MainView = () => {
                   <Navigate to="/" />
                 ) : (
                   <Col md={5}>
-                    <LoginView />
+                    <LoginView onLoggedIn={(user, token) => {
+                      setUser(user);
+                      setToken(token);
+                    }} />
                   </Col>
                 )}
               </>
             }
           />
-          {/* Route for movie details */}
           <Route
             path="/movies/:movieId"
             element={
@@ -110,7 +106,6 @@ export const MainView = () => {
               </>
             }
           />
-          {/* Route for home */}
           <Route
             path="/"
             element={
@@ -128,22 +123,20 @@ export const MainView = () => {
                       onChange={(e) => setFilter(e.target.value)}
                       className="mb-4"
                     />
-                    {filteredMovies.map((movie) => (
-                      <Col className="mb-4" key={movie.id} md={3}>
-                        <MovieCard
-                          key={movie.id}
-                          movie={movie}
-                        />
-                      </Col>
-                    ))}
+                    <Row xs={3} md={4} lg={4} className="g-4">
+                      {filteredMovies.map((movie) => (
+                        <Col key={movie.id}>
+                          <MovieCard movie={movie} />
+                        </Col>
+                      ))}
+                    </Row>
                   </>
                 )}
               </>
             }
           />
-          {/* Route for profile view */}
           <Route
-            path="/profile/"
+            path="/profile"
             element={
               <>
                 {!user ? (
@@ -156,7 +149,6 @@ export const MainView = () => {
               </>
             }
           />
-          {/* Route for profile edit */}
           <Route
             path="/profile/edit"
             element={
@@ -165,14 +157,14 @@ export const MainView = () => {
                   <Navigate to="/login" replace />
                 ) : (
                   <Col md={8}>
-                    <ProfileEdit />
+                    <ProfileEdit user={user} onUserUpdate={(updatedUser) => setUser(updatedUser)} />
                   </Col>
                 )}
               </>
             }
           />
         </Routes>
-      </Row>
+      </Container>
     </BrowserRouter>
   );
 };

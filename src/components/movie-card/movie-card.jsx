@@ -33,3 +33,4 @@ MovieCard.propTypes = {
         }),
     }).isRequired
 };
+

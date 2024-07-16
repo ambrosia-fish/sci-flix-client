@@ -1,9 +1,178 @@
-$color: steelblue;
+// Import Google Font
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;700&display=swap');
 
-.my-flix {
-  color: $color;
+// Custom color variables
+$dark-color-primary: #0b1424;
+$mid-color-primary: #25375c;
+$light-color-primary: #d7e0ea;
+$accent-color: lighten($mid-color-primary, 20%);
+
+// Font variables
+$font-family-base: 'Roboto', sans-serif;
+$font-family-sci-fi: 'Orbitron', sans-serif;
+
+// Bootstrap overrides
+$primary: $mid-color-primary;
+$body-bg: $dark-color-primary;
+$body-color: $light-color-primary;
+
+// Import Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+// Base styles
+body {
+  font-family: $font-family-base;
+  background-color: $dark-color-primary;
+  color: $light-color-primary;
 }
 
-$primary: #25375c;
-$body-bg: Honeydew;
-@import "~bootstrap/scss/bootstrap.scss";
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-sci-fi;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+// Navbar styles
+.navbar {
+  background-color: $dark-color-primary !important;
+  border-bottom: 2px solid $accent-color;
+  
+  .navbar-brand {
+    font-family: $font-family-sci-fi;
+    color: $accent-color;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 2rem;
+    
+    &:hover {
+      color: lighten($accent-color, 10%);
+    }
+  }
+  
+  .nav-link {
+    font-family: $font-family-sci-fi;
+    color: $light-color-primary !important;
+    font-weight: 500;
+    
+    &:hover, &:focus {
+      color: $accent-color !important;
+    }
+  }
+}
+
+// Movie card styles
+.movie-card {
+  background-color: $mid-color-primary;
+  border: 1px solid $accent-color;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba($accent-color, 0.2);
+  }
+  
+  .card-img-top {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 2 / 3;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .card-title {
+    font-family: $font-family-sci-fi;
+    color: $light-color-primary;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-text {
+    color: $light-color-primary;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .btn-link {
+    font-family: $font-family-sci-fi;
+    color: $light-color-primary;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0;
+    
+    &:hover {
+      color: $accent-color;
+      text-decoration: none;
+    }
+  }
+}
+
+// Form styles
+.form-control {
+  background-color: lighten($dark-color-primary, 5%);
+  border: 1px solid $accent-color;
+  color: $light-color-primary;
+  
+  &:focus {
+    background-color: lighten($dark-color-primary, 10%);
+    box-shadow: 0 0 0 0.2rem rgba($accent-color, 0.25);
+  }
+}
+
+.btn-primary {
+  font-family: $font-family-sci-fi;
+  background-color: $accent-color;
+  border-color: $accent-color;
+  font-weight: 500;
+  
+  &:hover {
+    background-color: darken($accent-color, 10%);
+    border-color: darken($accent-color, 10%);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 767px) {
+  .movie-card {
+    .card-body {
+      display: none;
+    }
+    
+    .card-img-top {
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+    }
+  }
+}
+
+// Animation for loading or transitions
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.loading {
+  animation: pulse 2s infinite;
+}
+
+// Additional utility classes
+.glow {
+  text-shadow: 0 0 10px $accent-color;
+}
+
+.sci-fi-border {
+  border: 2px solid $accent-color;
+  box-shadow: 0 0 15px rgba($accent-color, 0.5);
+}
