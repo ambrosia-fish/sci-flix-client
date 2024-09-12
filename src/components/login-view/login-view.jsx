@@ -14,7 +14,9 @@ export const LoginView = ({}) => {
 
         const data = {
             username: username,
-            password: password  
+            password: password,
+            email: email
+
         };
 
         // API call to login endpoint
