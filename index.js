@@ -126,28 +126,33 @@ app.get('/users/:user', async (req, res) => {
 
 // POST requests registers new user 
 app.post('/users', async (req, res) => {
-  let hashedPassword = Users.hashPassword(req.body.password);
-
-  try {
-    const user = await Users.findOne({ username: req.body.username });
-    if (user) {
-      return res.status(400).send(req.body.username + ' already exists');
+    try {
+      // Check if the password is provided
+      if (!req.body.password) {
+        return res.status(400).json({ error: 'Password is required' });
+      }
+  
+      let hashedPassword = Users.hashPassword(req.body.password);
+  
+      const user = await Users.findOne({ username: req.body.username });
+      if (user) {
+        return res.status(400).json({ error: req.body.username + ' already exists' });
+      }
+  
+      const newUser = await Users.create({
+        username: req.body.username,
+        password: hashedPassword,
+        email: req.body.email,
+        birthday: req.body.birthday
+      });
+  
+      res.status(201).json(newUser);
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
-
-    const newUser = await Users.create({
-      username: req.body.username,
-      password: hashedPassword,
-      email: req.body.email,
-      birthday: req.body.birthday
-    });
-
-    res.status(201).json(newUser);
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).send('Error: ' + error);
-  }
-});
-
+  });
+  
 // UPDATE request to update user info 
 app.patch('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOneAndUpdate({ username: req.params.username }, {
