@@ -124,6 +124,30 @@ app.get('/users/:user', async (req, res) => {
   }
 });
 
+//Post request for login
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    
+    User.findOne({ username })
+      .then((user) => {
+        if (!user) {
+          return res.status(400).json({ message: 'User not found' });
+        }
+        
+        if (!user.validatePassword(password)) {
+          return res.status(400).json({ message: 'Incorrect password' });
+        }
+        
+        const token = generateJWTToken(user.toJSON());
+        return res.json({ user, token });
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).json({ message: 'Error: ' + error });
+      });
+  });
+  
+
 // POST requests registers new user 
 app.post('/users', async (req, res) => {
     try {
@@ -152,7 +176,7 @@ app.post('/users', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
-  
+
 // UPDATE request to update user info 
 app.patch('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOneAndUpdate({ username: req.params.username }, {
