@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // cors functionality
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://sci-flix.netlify.app'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://sci-flix.netlify.app', 'http://localhost:4200'];
 
 app.use(cors({
   origin: (origin, callback) => {
