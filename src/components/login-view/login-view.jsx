@@ -14,8 +14,7 @@ export const LoginView = ({}) => {
 
         const data = {
             username: username,
-            password: password,
-            email: email
+            password: password
 
         };
 
