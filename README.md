@@ -16,7 +16,7 @@ Table of Contents
 Installation
 
 1. Clone the repository:
-   git clone https://github.com/yourusername/sci-flix-frontend.git
+   git clone https://github.com/ambrosia-fish/sci-flix-client.git
    cd sci-flix-frontend
 
 2. Install dependencies:
