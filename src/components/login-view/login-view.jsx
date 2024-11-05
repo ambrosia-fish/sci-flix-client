@@ -75,7 +75,7 @@ export const LoginView = ({}) => {
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>
-                    <Button className="btn btn-secondary" variant="secondary" type="button"
+                    <Button variant="primary" type="button"
                         onClick={handleGuestLogin}
                     >
                         Login as Guest
