@@ -130,16 +130,19 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.btn-primary, .btn-secondary {
-  font-family: $font-family-sci-fi;
-  background-color: $accent-color;
-  border-color: $accent-color;
+.btn.btn-primary,
+.btn.btn-secondary {
+  font-family: $font-family-sci-fi !important;
+  background-color: $accent-color !important;
+  border-color: $accent-color !important;
   font-weight: 500;
   margin: 0.5rem;  
+  color: $light-color-primary !important;  // Add this to ensure text color
   
-  &:hover {
-    background-color: darken($accent-color, 10%);
-    border-color: darken($accent-color, 10%);
+  &:hover, &:focus, &:active {
+    background-color: darken($accent-color, 10%) !important;
+    border-color: darken($accent-color, 10%) !important;
+    color: $light-color-primary !important;
   }
 }
 
