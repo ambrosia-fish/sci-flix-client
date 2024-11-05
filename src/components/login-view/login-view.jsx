@@ -77,7 +77,6 @@ export const LoginView = ({}) => {
                     </Button>
                     <Button 
                         variant="primary" 
-                        type="submit" 
                         onClick={handleGuestLogin}
                     >
                         Login as Guest
