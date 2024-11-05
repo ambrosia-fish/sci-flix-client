@@ -75,11 +75,11 @@ export const LoginView = ({}) => {
                     <Button className="login-button" variant="primary" type="button">
                         Login
                     </Button>
-                    <Button className="login-button" variant="primary" type="button"
+                    {/* <Button className="login-button" variant="primary" type="button"
                         onClick={handleGuestLogin}
                     >
                         Guest Login
-                    </Button>
+                    </Button> */}
                 </div>
             </Form>
         </div>
