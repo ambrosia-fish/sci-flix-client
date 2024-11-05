@@ -130,11 +130,12 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.btn-primary {
+.btn-primary, .btn-secondary {
   font-family: $font-family-sci-fi;
   background-color: $accent-color;
   border-color: $accent-color;
   font-weight: 500;
+  margin: 0.5rem;  
   
   &:hover {
     background-color: darken($accent-color, 10%);
