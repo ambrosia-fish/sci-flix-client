@@ -1,0 +1,154 @@
+{
+  "movies" : [
+    {
+        "Title": "The Thing",
+        "Description": "An Antarctic research team encounters a shape-shifting alien that can imitate any creature, leading to paranoia and terror.",
+        "Genre": {
+            "Name": "Horror",
+            "Description": "Horror films are intended to, or have the capacity to frighten, scare, or disgust."
+        },
+        "Director": {
+            "Name": "John Carpenter",
+            "Bio": "John Howard Carpenter is an American filmmaker, screenwriter, and composer.",
+            "Birth": "1948-01-01T00:00:00.000Z"
+        },
+        "Actors": [],
+        "Poster": "https://theposterdb.com/api/assets/38139"
+    },
+    {
+        "Title": "2001: A Space Odyssey",
+        "Description": "A visually stunning sci-fi epic exploring human evolution, AI, and cosmic mysteries in deep space.",
+        "Genre": {
+            "Name": "Epic",
+            "Description": "Epic films are a style of filmmaking with large-scale, sweeping scope, and spectacle."
+        },
+        "Director": {
+            "Name": "Stanley Kubrick",
+            "Bio": "Stanley Kubrick was an American film director, producer, screenwriter, and photographer.",
+            "Birth": "1928-01-01T00:00:00.000Z",
+            "Death": "1999-01-01T00:00:00.000Z"
+        },
+        "Actors": [],
+        "Poster": "https://theposterdb.com/api/assets/63118"
+    },
+    {
+        "Title": "Alien",
+        "Description": "The crew of the Nostromo battles a terrifying alien life form in this suspenseful and claustrophobic horror classic.",
+        "Genre": {
+            "Name": "Horror",
+            "Description": "Horror films are intended to, or have the capacity to frighten, scare, or disgust."
+        },
+        "Director": {
+            "Name": "Ridley Scott",
+            "Bio": "Sir Ridley Scott is an English film director and producer, known for his stylish visuals and innovative storytelling.",
+            "Birth": "1937-01-01T00:00:00.000Z"
+        },
+        "Actors": [],
+        "Poster": "https://theposterdb.com/api/assets/27062"
+    },
+    {
+        "Title": "The Terminator",
+        "Description": "A relentless cyborg assassin is sent from the future to kill Sarah Connor, the mother of a future resistance leader.",
+        "Genre": {
+            "Name": "Action",
+            "Description": "Action films are a genre in which the protagonist is thrust into a series of events that typically include violence and physical feats."
+        },
+        "Director": {
+            "Name": "James Cameron",
+            "Bio": "James Francis Cameron is a Canadian filmmaker and environmentalist.",
+            "Birth": "1954-01-01T00:00:00.000Z"
+        },
+        "Actors": [],
+        "Poster": "https://theposterdb.com/api/assets/151292"
+    },
+    {
+        "Title": "Blade Runner",
+        "Description": "In a dystopian future, a blade runner hunts down rogue androids while grappling with his own humanity.",
+        "Genre": {
+            "Name": "Neo-noir",
+            "Description": "Neo-noir is a modern or contemporary motion picture rendition of film noir, emphasizing cynical attitudes and sexual motivations."
+        },
+        "Director": {
+            "Name": "Ridley Scott",
+            "Bio": "Sir Ridley Scott is an English film director and producer, known for his stylish visuals and innovative storytelling.",
+            "Birth": "1937-01-01T00:00:00.000Z"
+        },
+        "Actors": [],
+        "Poster": "https://theposterdb.com/api/assets/50381"
+    },
+    {
+        "Title": "Arrival",
+        "Description": "A linguist works to communicate with mysterious alien visitors and unravels profound implications for humanity and herself.",
+        "Genre": {
+            "Name": "Drama",
+            "Description": "Drama films are serious presentations or stories with settings or life situations that portray realistic characters in conflict."
+        },
+        "Director": {
+            "Name": "Denis Villeneuve",
+            "Bio": "Denis Villeneuve is a Canadian filmmaker known for his dark and intense films.",
+            "Birth": "1967-01-01T00:00:00.000Z"
+        },
+        "Actors": [],
+        "Poster": "https://theposterdb.com/api/assets/64299"
+    },
+    {
+        "Title": "The Matrix",
+        "Description": "A hacker discovers the shocking truth about his reality and leads a rebellion against the machines controlling it.",
+        "Genre": {
+            "Name": "Action",
+            "Description": "Action films are a genre in which the protagonist is thrust into a series of events that typically include violence and physical feats."
+        },
+        "Director": {
+            "Name": "The Wachowski Sisters",
+            "Bio": "Lana Wachowski and Lilly Wachowski are American film and television directors, writers, and producers."
+        },
+        "Actors": [],
+        "Poster": "https://theposterdb.com/api/assets/195196"
+    },
+    {
+        "Title": "Jurassic Park",
+        "Description": "A revolutionary theme park with living dinosaurs turns deadly as the prehistoric creatures break free and hunt the visitors.",
+        "Genre": {
+            "Name": "Adventure",
+            "Description": "Adventure films are a genre that often includes exciting, unusual, and often risky experiences or exploits."
+        },
+        "Director": {
+            "Name": "Steven Spielberg",
+            "Bio": "Steven Allan Spielberg is an American film director, producer, and screenwriter.",
+            "Birth": "1946-01-01T00:00:00.000Z"
+        },
+        "Actors": [],
+        "Poster": "https://image.tmdb.org/t/p/original/oU7Oq2kFAAlGqbU4VoAE36g4hoI.jpg"
+    },
+    {
+        "Title": "Dune: Part Two",
+        "Description": "Paul Atreides continues his journey on Arrakis, facing new challenges and consolidating his power against formidable foes.",
+        "Genre": {
+            "Name": "Epic",
+            "Description": "Epic films are a style of filmmaking with large-scale, sweeping scope, and spectacle."
+        },
+        "Director": {
+            "Name": "Denis Villeneuve",
+            "Bio": "Denis Villeneuve is a Canadian filmmaker known for his dark and intense films.",
+            "Birth": "1967-01-01T00:00:00.000Z"
+        },
+        "Actors": [],
+        "Poster": "https://theposterdb.com/api/assets/356990"
+    },
+    {
+        "Title": "Back to the Future",
+        "Description": "Teenager Marty McFly travels back to 1955 and must ensure his parents meet and fall in love to return to the present.",
+        "Genre": {
+            "Name": "Adventure",
+            "Description": "Adventure films are a genre that often includes exciting, unusual, and often risky experiences or exploits."
+        },
+        "Director": {
+            "Name": "Robert Zemeckis",
+            "Bio": "Robert Lee Zemeckis is an American filmmaker and screenwriter.",
+            "Birth": "1952-01-01T00:00:00.000Z"
+        },
+        "Actors": [],
+        "Poster": "https://image.tmdb.org/t/p/original/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg"
+    }
+  ]
+}
