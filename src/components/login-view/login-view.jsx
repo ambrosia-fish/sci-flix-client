@@ -73,7 +73,7 @@ export const LoginView = ({}) => {
                 </Form.Group>
                 <div className="mt-3 space-x-2">
                     <Button className="login-button" variant="primary" type="submit">
-                        Submit
+                        Login
                     </Button>
                     <Button className="login-button" variant="primary" type="button"
                         onClick={handleGuestLogin}
