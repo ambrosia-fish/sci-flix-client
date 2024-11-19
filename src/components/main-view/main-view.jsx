@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { MovieCard } from "../movie-card/movie-card.jsx";
 import { MovieView } from "../movie-view/movie-view.jsx";
 import { LoginView } from "../login-view/login-view.jsx";
@@ -6,6 +6,7 @@ import { SignupView } from "../signup-view/signup-view.jsx";
 import { NavigationBar } from "../navigation-bar/navigation-bar.jsx";
 import { ProfileView } from "../profile-view/profile-view.jsx";
 import { ProfileEdit } from "../profile-edit/profile-edit.jsx";
+import { debounce } from 'lodash';
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -24,96 +25,134 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
-  const [filter, setFilter] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [genres, setGenres] = useState([]);
 
   // Function to get the secondary genre
-  const getSecondaryGenre = (genreIds, genres) => {
-    // Filter out Science Fiction (ID: 878) and get the first remaining genre
+  const getSecondaryGenre = (genreIds) => {
     const secondaryGenre = genres.find(g => 
       genreIds.includes(g.id) && g.id !== 878
     );
     return secondaryGenre ? secondaryGenre.name : "General Science Fiction";
   };
 
+  // Fetch genres once when component mounts
   useEffect(() => {
     if (!token) return;
 
-    const fetchMovies = async () => {
-      try {
-        // First fetch genres to have the complete list
-        const genresResponse = await fetch(
-          `${TMDB_BASE_URL}/genre/movie/list?api_key=${TMDB_API_KEY}&language=en-US`
-        );
-        const genresData = await genresResponse.json();
-        const genres = genresData.genres;
+    fetch(`${TMDB_BASE_URL}/genre/movie/list?api_key=${TMDB_API_KEY}&language=en-US`)
+      .then(response => response.json())
+      .then(data => setGenres(data.genres))
+      .catch(error => console.error("Error fetching genres:", error));
+  }, [token]);
 
-        // Then fetch movies
-        const response = await fetch(
-          `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_genres=878&page=${currentPage}&language=en-US&sort_by=popularity.desc&include_adult=false`,
-          {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }
-        );
+  // Process movie data
+  const processMovieData = async (movieData) => {
+    try {
+      const creditsResponse = await fetch(
+        `${TMDB_BASE_URL}/movie/${movieData.id}/credits?api_key=${TMDB_API_KEY}`
+      );
+      const creditsData = await creditsResponse.json();
+      const director = creditsData.crew.find(
+        (person) => person.job === "Director"
+      );
 
-        const data = await response.json();
-        
-        // Transform TMDB data with secondary genre
-        const moviesFromApi = data.results.map((movie) => ({
-          id: movie.id,
-          title: movie.title,
-          genre: getSecondaryGenre(movie.genre_ids, genres),
-          director: "",
-          poster: movie.poster_path ? `${TMDB_IMAGE_BASE_URL}${movie.poster_path}` : null,
-          description: movie.overview,
-          releaseDate: movie.release_date,
-          rating: movie.vote_average,
-          popularity: movie.popularity
-        }));
+      return {
+        id: movieData.id,
+        title: movieData.title,
+        genre: getSecondaryGenre(movieData.genre_ids),
+        director: director ? director.name : "Unknown",
+        poster: movieData.poster_path ? `${TMDB_IMAGE_BASE_URL}${movieData.poster_path}` : null,
+        description: movieData.overview,
+        releaseDate: movieData.release_date,
+        rating: movieData.vote_average,
+        popularity: movieData.popularity
+      };
+    } catch (error) {
+      console.error(`Error processing movie ${movieData.id}:`, error);
+      return null;
+    }
+  };
 
-        // Fetch directors
-        const moviesWithDirectors = await Promise.all(
-          moviesFromApi.map(async (movie) => {
-            try {
-              const creditsResponse = await fetch(
-                `${TMDB_BASE_URL}/movie/${movie.id}/credits?api_key=${TMDB_API_KEY}`
-              );
-              const creditsData = await creditsResponse.json();
-              const director = creditsData.crew.find(
-                (person) => person.job === "Director"
-              );
-              return {
-                ...movie,
-                director: director ? director.name : "Unknown"
-              };
-            } catch (error) {
-              console.error(`Error fetching credits for movie ${movie.id}:`, error);
-              return movie;
-            }
-          })
-        );
+  // Fetch movies function
+  const fetchMovies = async (page, search = "") => {
+    if (!token || loading || (!hasMore && !search)) return;
 
-        setMovies(moviesWithDirectors);
-        setTotalPages(data.total_pages);
-      } catch (error) {
-        console.error("Error fetching movies:", error);
+    setLoading(true);
+    try {
+      const endpoint = search
+        ? `${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(search)}&page=${page}`
+        : `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_genres=878&page=${page}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+
+      const response = await fetch(endpoint);
+      const data = await response.json();
+
+      const processedMovies = await Promise.all(
+        data.results
+          .filter(movie => search ? true : movie.genre_ids.includes(878))
+          .map(processMovieData)
+      );
+
+      const validMovies = processedMovies.filter(movie => movie !== null);
+
+      setMovies(prevMovies => 
+        page === 1 ? validMovies : [...prevMovies, ...validMovies]
+      );
+      setHasMore(data.page < data.total_pages);
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Debounced search function
+  const debouncedSearch = useCallback(
+    debounce((query) => {
+      setMovies([]);
+      setCurrentPage(1);
+      setHasMore(true);
+      fetchMovies(1, query);
+    }, 500),
+    []
+  );
+
+  // Handle search input
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    debouncedSearch(query);
+  };
+
+  // Initial load and infinite scroll
+  useEffect(() => {
+    if (!token) return;
+
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop
+        === document.documentElement.offsetHeight
+      ) {
+        if (hasMore && !loading) {
+          setCurrentPage(prev => prev + 1);
+          fetchMovies(currentPage + 1, searchQuery);
+        }
       }
     };
 
-    fetchMovies();
-  }, [token, currentPage]);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [token, currentPage, hasMore, loading, searchQuery]);
 
-  const filteredMovies = movies.filter((movie) =>
-    movie.title.toLowerCase().includes(filter.toLowerCase())
-  );
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-    window.scrollTo(0, 0);
-  };
+  // Initial fetch
+  useEffect(() => {
+    if (token && currentPage === 1) {
+      fetchMovies(1, searchQuery);
+    }
+  }, [token]);
 
   return (
     <BrowserRouter>
@@ -181,43 +220,27 @@ export const MainView = () => {
               <>
                 {!user ? (
                   <Navigate to="/login" replace />
-                ) : movies.length === 0 ? (
-                  <Col>Loading movies...</Col>
                 ) : (
                   <>
                     <Form.Control
-                      type="text"
-                      placeholder="Filter by title"
-                      value={filter}
-                      onChange={(e) => setFilter(e.target.value)}
+                      type="search"
+                      placeholder="Search movies..."
+                      value={searchQuery}
+                      onChange={handleSearchChange}
                       className="mb-4"
                     />
                     <Row xs={3} md={4} lg={4} className="g-4">
-                      {filteredMovies.map((movie) => (
+                      {movies.map((movie) => (
                         <Col key={movie.id}>
                           <MovieCard movie={movie} />
                         </Col>
                       ))}
                     </Row>
-                    <div className="d-flex justify-content-center mt-4">
-                      <button
-                        className="btn btn-primary mx-2"
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                      >
-                        Previous
-                      </button>
-                      <span className="mx-3 align-self-center">
-                        Page {currentPage} of {totalPages}
-                      </span>
-                      <button
-                        className="btn btn-primary mx-2"
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                      >
-                        Next
-                      </button>
-                    </div>
+                    {loading && (
+                      <div className="text-center mt-4">
+                        Loading more movies...
+                      </div>
+                    )}
                   </>
                 )}
               </>
