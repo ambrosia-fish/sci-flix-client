@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Col from "react-bootstrap/Col";
 import { MovieCard } from "../movie-card/movie-card.jsx";
 
-// ProfileView component
 export const ProfileView = ({ movies, user }) => {
-  // State variable for refreshed user data
   const [refreshedUser, setRefreshedUser] = useState(null);
+  const token = localStorage.getItem("token");
 
-  // Fetch updated user data when the component mounts or user.username changes
   useEffect(() => {
-    fetch(`https://sci-flix-075b51101639.herokuapp.com/users/${user.username}`)
+    fetch(`https://sci-flix-075b51101639.herokuapp.com/users/${user.username}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -19,45 +21,58 @@ export const ProfileView = ({ movies, user }) => {
         return response.json();
       })
       .then((data) => {
-        setRefreshedUser(data); 
+        console.log("Fetched user data:", data);
+        setRefreshedUser(data);
       })
       .catch((error) => {
         console.error('Error:', error);
       });
-  }, [user.username]); 
+  }, [user.username, token]);
 
   // Filter movies to get the user's favorite movies
   let favoriteMovies = [];
-  if (refreshedUser) {
-    favoriteMovies = movies.filter((m) => refreshedUser.favoriteMovies.includes(m.id));
+  if (refreshedUser && refreshedUser.favoriteMovies && movies.length > 0) {
+    console.log("Favorite movie IDs:", refreshedUser.favoriteMovies);
+    console.log("Available movies:", movies.map(m => ({ id: m.id, title: m.title })));
+    
+    favoriteMovies = movies.filter((movie) => 
+      refreshedUser.favoriteMovies.includes(movie.id.toString())
+    );
+    
+    console.log("Filtered favorite movies:", favoriteMovies);
   }
 
   return (
-    <div>
-      <Card>
-        <Card.Body>
-          <Card.Title>User Profile</Card.Title>
-          <Card.Text>
-            Username: {user.username} <br />
-            Email: {user.email} <br />
-            Favorite Movies:
-            {favoriteMovies.length > 0 ? (
-              <>
-                {favoriteMovies.map((movie) => (
-                  <Col className="mb-4" key={movie.title} md={3}>
-                    <MovieCard key={movie.id} movie={movie} />
-                  </Col>
-                ))}
-              </>
-            ) : (
-              <p>No favorite movies found.</p>
-            )}
-          </Card.Text>
-          <Link to="/profile/edit">Edit Profile</Link>
-          <br />
-          <Link to="/">Back to Home</Link>
-        </Card.Body>
-      </Card>
-    </div>
+    <Card>
+      <Card.Body>
+        <Card.Title>User Profile</Card.Title>
+        <Card.Text>
+          <strong>Username:</strong> {user.username} <br />
+          <strong>Email:</strong> {user.email} <br />
+        </Card.Text>
+        
+        <h3 className="mt-4 mb-3">Favorite Movies</h3>
+        {favoriteMovies.length > 0 ? (
+          <Row xs={1} md={2} lg={3} className="g-4">
+            {favoriteMovies.map((movie) => (
+              <Col key={movie.id}>
+                <MovieCard movie={movie} />
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <p>No favorite movies found.</p>
+        )}
+
+        <div className="mt-4">
+          <Link to="/profile/edit" className="btn btn-primary me-2">
+            Edit Profile
+          </Link>
+          <Link to="/" className="btn btn-secondary">
+            Back to Home
+          </Link>
+        </div>
+      </Card.Body>
+    </Card>
   );
 };
