@@ -12,53 +12,71 @@ export const MovieView = ({ movies }) => {
     const token = localStorage.getItem('token');
     const [isFavorite, setIsFavorite] = useState(false);
     
-    // Check if movie is in user's favorites when component mounts
     useEffect(() => {
         if (!user || !token || !movie) return;
 
         fetch(`https://sci-flix-075b51101639.herokuapp.com/users/${user.username}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
+            headers: { 
+                Authorization: `Bearer ${token}` 
             }
         })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Failed to fetch user data');
-            }
-        })
+        .then(response => response.json())
         .then(userData => {
-            // Check if the movie ID exists in user's favorites
-            const favoriteExists = userData.FavoriteMovies.includes(movie.id.toString());
+            console.log("User Data:", userData);
+            console.log("Movie ID to check:", movie.id.toString());
+            console.log("User's favorites:", userData.favoriteMovies);
+            
+            const favoriteExists = userData.favoriteMovies && 
+                userData.favoriteMovies.includes(movie.id.toString());
+            console.log("Is favorite:", favoriteExists);
             setIsFavorite(favoriteExists);
         })
         .catch(error => {
             console.error('Error checking favorites:', error);
-            setIsFavorite(false);
         });
-    }, [movieId, user, token]);
+    }, [movieId, user, token, movie]);
 
-    const toggleFavorite = () => {
-        fetch(`https://sci-flix-075b51101639.herokuapp.com/users/${user.username}/favorites`, {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ newFavorite: movieId }),
-        }).then((response) => {
+    const toggleFavorite = async () => {
+        if (!movie || !user || !token) return;
+    
+        try {
+            const requestBody = { movieId: movie.id.toString() };
+            console.log('Sending request with body:', requestBody);
+    
+            const response = await fetch(
+                `https://sci-flix-075b51101639.herokuapp.com/users/${user.username}/favorites`,
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(requestBody)
+                }
+            );
+    
+            const data = await response.json();
+            console.log("Full server response:", {
+                status: response.status,
+                data: data
+            });
+            
             if (response.ok) {
-                setIsFavorite(!isFavorite); // Toggle the heart state
+                setIsFavorite(data.isFavorite);
+                console.log(`Movie ${data.isFavorite ? 'added to' : 'removed from'} favorites`);
             } else {
-                response.text().then((text) => alert(`Update failed: ${text}`));
+                console.error('Server error details:', {
+                    status: response.status,
+                    error: data.error
+                });
             }
-        }).catch((error) => {
-            console.error('Error:', error);
-            alert(`Update failed: ${error.message}`);
-        });
+        } catch (error) {
+            console.error('Error toggling favorite:', {
+                message: error.message,
+                error: error
+            });
+        }
     };
-
     if (!movie) {
         return (
             <div>
