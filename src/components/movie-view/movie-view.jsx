@@ -3,18 +3,42 @@ import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import "./movie-view.scss";
 import { Button } from "react-bootstrap";
+import { useState, useEffect } from "react";
 
-// MovieView component
 export const MovieView = ({ movies }) => {
-    // Extract movieId from URL parameters
     const { movieId } = useParams();
-    // Find the movie in the movies array by ID
-    const movie = movies.find((m) => m.id === movieId);
-    // Retrieve user and token from localStorage
+    const movie = movies.find((m) => m.id === parseInt(movieId, 10));
     const user = JSON.parse(localStorage.getItem('user'));
     const token = localStorage.getItem('token');
+    const [isFavorite, setIsFavorite] = useState(false);
+    
+    // Check if movie is in user's favorites when component mounts
+    useEffect(() => {
+        if (!user || !token || !movie) return;
 
-    // Function to add or remove movie from favorites
+        fetch(`https://sci-flix-075b51101639.herokuapp.com/users/${user.username}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to fetch user data');
+            }
+        })
+        .then(userData => {
+            // Check if the movie ID exists in user's favorites
+            const favoriteExists = userData.FavoriteMovies.includes(movie.id.toString());
+            setIsFavorite(favoriteExists);
+        })
+        .catch(error => {
+            console.error('Error checking favorites:', error);
+            setIsFavorite(false);
+        });
+    }, [movieId, user, token]);
+
     const toggleFavorite = () => {
         fetch(`https://sci-flix-075b51101639.herokuapp.com/users/${user.username}/favorites`, {
             method: "POST",
@@ -25,7 +49,7 @@ export const MovieView = ({ movies }) => {
             body: JSON.stringify({ newFavorite: movieId }),
         }).then((response) => {
             if (response.ok) {
-                alert("Favorite added or removed successfully");
+                setIsFavorite(!isFavorite); // Toggle the heart state
             } else {
                 response.text().then((text) => alert(`Update failed: ${text}`));
             }
@@ -35,19 +59,51 @@ export const MovieView = ({ movies }) => {
         });
     };
 
+    if (!movie) {
+        return (
+            <div>
+                <p>Loading movie details...</p>
+                <Link to="/">
+                    <Button variant="primary">Back</Button>
+                </Link>
+            </div>
+        );
+    }
+
     return (
         <div>
             <Card className="h-100">
-                <img className="moviePoster" src={movie.poster} />
+                <img 
+                    className="moviePoster" 
+                    src={movie.poster} 
+                    alt={`Poster for ${movie.title}`}
+                />
                 <Card.Body>
                     <Card.Title>{movie.title}</Card.Title>
-                    <Card.Text>Directed by: {movie.director}<br /> Subgenre: {movie.genre}</Card.Text>
-                    <Button onClick={toggleFavorite}>Add/remove as favorite</Button>
+                    <Card.Text>
+                        <strong>Directed by:</strong> {movie.director}<br />
+                        <strong>Genre:</strong> {movie.genre}<br />
+                        {movie.description && (
+                            <>
+                                <strong>Description:</strong><br />
+                                {movie.description}
+                            </>
+                        )}
+                    </Card.Text>
+                    <div className="d-flex gap-2">
+                        <Button 
+                            variant="primary" 
+                            onClick={toggleFavorite}
+                            aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                        >
+                            <i className={`bi ${isFavorite ? 'bi-heart-fill' : 'bi-heart'}`}></i>
+                        </Button>
+                        <Link to="/">
+                            <Button variant="primary">Back</Button>
+                        </Link>
+                    </div>
                 </Card.Body>
             </Card>
-            <Link to={`/`}>
-                <button className="back-button">Back</button>
-            </Link>
         </div>
     );
 };
